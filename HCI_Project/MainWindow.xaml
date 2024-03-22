@@ -41,10 +41,18 @@
 
             <TextBlock Grid.Row="1" Text="Username:" Margin="125,268,-115,-283"/>
             <TextBox Grid.Row="1" Name="UsernameTextBox" Margin="186,268,-332,-285"/>
+            <Label 
+                x:Name="UsernameErrorLabel"
+                Content=""
+                Foreground="Red" Margin="186,285,-332,-310" Grid.Row="2" RenderTransformOrigin="0.321,1.019"/>
 
             <TextBlock Grid.Row="2" Text="Password:" Margin="125,333,-115,-347"/>
             <PasswordBox Grid.Row="2" Name="PasswordBox" Margin="186,333,-331,-351" RenderTransformOrigin="1.647,1.947"/>
-
+            <Label 
+                x:Name="PasswordErrorLabel"
+                Height="28"
+                Content=""
+                Foreground="Red"/>
             <Button Grid.Row="3" Content="Login" Click="LoginButton_Click" Margin="215,399,-302,-428"/>
             <Button Grid.Row="3" Content="Exit" Click="ExitButton_Click" Margin="216,457,-302,-485"></Button>
         </Grid>
