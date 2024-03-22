@@ -24,5 +24,20 @@ namespace HCI_Project
         {
             InitializeComponent();
         }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
     }
 }
