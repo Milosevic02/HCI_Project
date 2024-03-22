@@ -23,7 +23,6 @@ namespace HCI_Project
     public partial class MainWindow : Window
     {
         private DataIO serializer = new DataIO();
-        public List<User>Users = new List<User>();
         public List<User> users = new List<User>();
         public MainWindow()
         {
@@ -31,9 +30,11 @@ namespace HCI_Project
             User visitor = new User("visitor", "visitor123", UserRole.Visitor);
             User admin = new User("admin", "admin123", UserRole.Admin);
             users.Add(visitor);
-            users.Add(admin);   
-            serializer.SerializeObject<List<User>>(users,"Users.xaml");
-            Users = serializer.DeSerializeObject<List<User>>("Users.xaml");
+            users.Add(admin);
+            serializer.SerializeObject<List<User>>(users, "Users.xml");
+
+            // Deserijalizacija objekata
+            users = serializer.DeSerializeObject<List<User>>("Users.xml");
 
         }
 
@@ -44,9 +45,9 @@ namespace HCI_Project
                 if (user.Username == UsernameTextBox.Text && user.Password == PasswordBox.Password)
                 {
                     UsernameErrorLabel.Content = string.Empty;
-                    UsernameErrorLabel.BorderBrush = Brushes.Gray;
+                    UsernameTextBox.BorderBrush = Brushes.Gray;
                     PasswordErrorLabel.Content = string.Empty;
-                    PasswordErrorLabel.BorderBrush = Brushes.Gray;
+                    PasswordBox.BorderBrush = Brushes.Gray;
                     if (user.Role == UserRole.Admin)
                     {
 
@@ -61,7 +62,7 @@ namespace HCI_Project
                     UsernameErrorLabel.Content = "Wrong input";
                     UsernameTextBox.BorderBrush = Brushes.Red;
                     PasswordErrorLabel.Content = "Wrong input";
-                    PasswordErrorLabel.BorderBrush = Brushes.Red;
+                    PasswordBox.BorderBrush = Brushes.Red;
                 }
             }
 
