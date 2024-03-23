@@ -30,12 +30,12 @@
 
         <Grid HorizontalAlignment="Left" Height="557" VerticalAlignment="Center" Width="588" Canvas.Top="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="0*" />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -45,17 +45,16 @@
 
             <Label
                 x:Name="TitleLabel"
-                Grid.Row="0"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Margin="0,10,0,0"
-                HorizontalAlignment="Center"
+                Margin="117,0,0,0"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
                 Content="STREAMING PLATFORM CREATION"
                 FontFamily="Agency FB"
-                FontSize="34" />
+                FontSize="34" Height="51" Width="354" />
 
             <Label
                 x:Name="NameLabel"
@@ -65,26 +64,27 @@
                 Margin="113,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Content="Name:" />
-            <Image x:Name="ImagePreview" Grid.Row="1" Grid.Column="1" Width="200" Height="200" Stretch="UniformToFill" />
+                Content="Name:" Width="44" />
 
             <Label
-                x:Name="GenderLabel"
+                x:Name="ImageLabel"
+                Grid.Row="2"
+                Grid.Column="0"
+                Height="56"
+                Margin="113,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Image:" Width="46" />
+
+            <Label
+                x:Name="DescriptionLabel"
                 Grid.Row="3"
                 Grid.Column="0"
                 Height="56"
-                Margin="106,24,0,0"
+                Margin="113,0,0,0"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Content="Gender:" />
-            <Label
-                x:Name="DepartmentLabel"
-                Grid.Row="4"
-                Height="56"
-                Margin="81,17,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Content="Department:" />
+                VerticalAlignment="Center"
+                Content="Description:" Width="73" />
 
             <StackPanel
                 Grid.Row="1"
@@ -108,69 +108,50 @@
             </StackPanel>
 
             <StackPanel
-                Grid.Row="3"
+                Grid.Row="2"
                 Grid.Column="1"
-                Width="210"
-                Height="44"
+                Width="287"
+                Height="42"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center">
-                <StackPanel
-                    Height="16"
-                    Orientation="Horizontal">
-                    <RadioButton
-                        x:Name="MaleRadioButton"
-                        Height="16"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Content="Male"
-                        GroupName="Gender"
-                        IsChecked="True" />
-                    <RadioButton
-                        x:Name="FemaleRadioButton"
-                        Margin="60,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        Content="Female"
-                        GroupName="Gender" />
-                </StackPanel>
+                <Image x:Name="ImagePreview" Grid.Row="2" Grid.Column="1" Stretch="UniformToFill" Margin="25,13,143,22" RenderTransformOrigin="0.46,0.842" />
                 <Label 
-                    x:Name="GenderErrorLabel"
-                    Height="28"
+                    x:Name="ImageErrorLabel"
+                    Height="21"
                     Content=""
-                    Foreground="Red"/>
+                    Foreground="Red" RenderTransformOrigin="0.5,0.5">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="-1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                </Label>
             </StackPanel>
 
-            <StackPanel
-                Grid.Row="4"
+            <StackPanel Grid.Row="3"
                 Grid.Column="1"
-                Width="210"
-                Height="56"
+                Width="287"
+                Height="42"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center">
-                <Border 
-                    x:Name="DepartmentComboBoxColorBorder"
-                    Width="210"
-                    Height="28"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <ComboBox 
-                        x:Name="DepartmentComboBox"
-                        IsTextSearchEnabled="True"
-                        IsTextSearchCaseSensitive="False"/>
-                </Border>
-                <Label 
-                    x:Name="DepartmentErrorLabel"
-                    Height="28"
-                    Content=""
-                    Foreground="Red"/>
+                <RichTextBox
+                    Name="EditorRichTextBox"
+                    Width="465"
+                    Margin="0,10,0,10"
+                    SelectionChanged="EditorRichTextBox_SelectionChanged" />
+
             </StackPanel>
+
 
             <StackPanel
                 Grid.Row="5"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                HorizontalAlignment="Center"
-                Orientation="Vertical">
+                HorizontalAlignment="Left"
+                Orientation="Vertical" Margin="119,15,0,0" Width="350">
                 <Rectangle 
                     Width="330"
                     Height="8"
