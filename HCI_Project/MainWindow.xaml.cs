@@ -49,8 +49,6 @@ namespace HCI_Project
                 }
             }
 
-
-
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
