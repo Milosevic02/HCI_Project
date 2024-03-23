@@ -2,6 +2,7 @@
 using HCI_Project.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,19 +23,33 @@ namespace HCI_Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        private DataIO serializer = new DataIO();
         public List<User> users = new List<User>();
         public MainWindow()
         {
             InitializeComponent();
-            User visitor = new User("visitor", "visitor123", UserRole.Visitor);
-            User admin = new User("admin", "admin123", UserRole.Admin);
-            users.Add(visitor);
-            users.Add(admin);
-            serializer.SerializeObject<List<User>>(users, "Users.xml");
+            using (StreamReader sr = new StreamReader("Users.txt"))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] parts = line.Split('|');
+                    string username = parts[0];
+                    string password = parts[1];
+                    bool isAdmin = parts[2] == "1";
+                    if(isAdmin)
+                    {
+                        User user = new User(username, password, UserRole.Admin);
+                        users.Add(user);
+                    }
+                    else
+                    {
+                        User user = new User(username, password, UserRole.Visitor);
+                        users.Add(user);
+                    }
+                }
+            }
 
-            // Deserijalizacija objekata
-            users = serializer.DeSerializeObject<List<User>>("Users.xml");
+
 
         }
 
