@@ -65,11 +65,11 @@ namespace HCI_Project
                     PasswordBox.BorderBrush = Brushes.Gray;
                     if (user.Role == UserRole.Admin)
                     {
-
+                        NavigateToPage("AdminPage");
                     }
                     else
                     {
-
+                        NavigateToPage("VisitorPage");
                     }
                 }
                 else
@@ -86,6 +86,12 @@ namespace HCI_Project
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void NavigateToPage(string pageName)
+        {
+            String pageUri = "Pages/" + pageName + ".xaml";
+            MainFrame.Navigate(new Uri(pageUri, UriKind.RelativeOrAbsolute));
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -55,6 +55,10 @@
             <Button Grid.Row="2" Content="Login" Click="LoginButton_Click" Margin="216,357,-303,-386"/>
             <Button Grid.Row="2" Content="Exit" Click="ExitButton_Click" Margin="217,438,-303,-466"></Button>
         </Grid>
+        <Frame
+            x:Name="MainFrame"
+            NavigationUIVisibility="Hidden"/>
+
     </Canvas>
 
 
