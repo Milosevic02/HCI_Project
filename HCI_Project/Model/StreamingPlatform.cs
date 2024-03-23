@@ -14,13 +14,13 @@ namespace HCI_Project.Model
         private string description;
         private DateTime date;
 
-        public StreamingPlatform(int rating, string name, string image, DateTime date)
+        public StreamingPlatform(int rating, string name, string image)
         {
             this.rating = rating;
             this.name = name;
             this.image = image;
             this.description = name + ".rtf";
-            this.date = date;
+            this.date = DateTime.Now;
         }
 
         public int Rating { get => rating; set => rating = value; }
