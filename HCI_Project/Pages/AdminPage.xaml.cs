@@ -24,6 +24,19 @@ namespace HCI_Project.Pages
         {
             InitializeComponent();
         }
+        private void AddPlatformButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

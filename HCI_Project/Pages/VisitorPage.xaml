@@ -7,28 +7,4 @@
       mc:Ignorable="d" 
       Title="VisitorPage">
 
-    <Canvas Width="600" Height="600">
-
-
-        <Path
-        Name="UIPath"
-        Fill="White"
-        Stroke="DarkGray"
-        StrokeThickness="2" HorizontalAlignment="Center" Canvas.Top="-1.415" VerticalAlignment="Top">
-            <Path.Data>
-                <PathGeometry>
-                    <PathFigure StartPoint="200,0">
-                        <LineSegment Point="0,150" />
-                        <LineSegment Point="0,450" />
-                        <LineSegment Point="200,600" />
-                        <LineSegment Point="400,600" />
-                        <LineSegment Point="600,450" />
-                        <LineSegment Point="600,150" />
-                        <LineSegment Point="400,0" />
-
-                    </PathFigure>
-                </PathGeometry>
-            </Path.Data>
-        </Path>
-    </Canvas>
 </Page>
