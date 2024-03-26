@@ -4,17 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HCI_Project"
+        xmlns:fa5="http://schemas.fontawesome.com/icons/"
+        xmlns:notifications="clr-namespace:Notification.Wpf.Controls;assembly=Notification.Wpf"
         Title="MainWindow"
         AllowsTransparency="True"
         Background="Transparent"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         SizeToContent="WidthAndHeight"
         WindowStyle="None"
+        Closing="Window_Closing"
         mc:Ignorable="d">
 
     <Canvas Width="600" Height="600">
 
-
+        <notifications:NotificationArea
+            x:Name="WindowNotificationArea"
+            Panel.ZIndex="1000"
+            MaxItems="3"
+            Position="TopLeft"
+            />
+        
         <Path
             Name="UIPath"
             Fill="White"
@@ -55,9 +64,6 @@
             <Button Grid.Row="2" Content="Login" Click="LoginButton_Click" Margin="216,357,-303,-386"/>
             <Button Grid.Row="2" Content="Exit" Click="ExitButton_Click" Margin="217,438,-303,-466"></Button>
         </Grid>
-        <Frame
-            x:Name="MainFrame"
-            NavigationUIVisibility="Hidden"/>
 
     </Canvas>
 

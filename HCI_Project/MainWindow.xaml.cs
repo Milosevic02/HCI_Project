@@ -1,7 +1,9 @@
 ﻿using HCI_Project.Helpers;
 using HCI_Project.Model;
+using Notification.Wpf;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,30 +26,14 @@ namespace HCI_Project
     public partial class MainWindow : Window
     {
         public List<User> users = new List<User>();
+        private NotificationManager notificationManager;
+
         public MainWindow()
         {
             InitializeComponent();
-            using (StreamReader sr = new StreamReader("Users.txt"))
-            {
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    string[] parts = line.Split('|');
-                    string username = parts[0];
-                    string password = parts[1];
-                    bool isAdmin = parts[2] == "1";
-                    if(isAdmin)
-                    {
-                        User user = new User(username, password, UserRole.Admin);
-                        users.Add(user);
-                    }
-                    else
-                    {
-                        User user = new User(username, password, UserRole.Visitor);
-                        users.Add(user);
-                    }
-                }
-            }
+            notificationManager = new NotificationManager();
+
+            users = ReadUsersFromFile();
 
         }
 
@@ -61,14 +47,8 @@ namespace HCI_Project
                     UsernameTextBox.BorderBrush = Brushes.Gray;
                     PasswordErrorLabel.Content = string.Empty;
                     PasswordBox.BorderBrush = Brushes.Gray;
-                    if (user.Role == UserRole.Admin)
-                    {
-                        NavigateToPage("AdminPage");
-                    }
-                    else
-                    {
-                        NavigateToPage("VisitorPage");
-                    }
+                    UserWindow userWindow = new UserWindow(user);
+                    userWindow.ShowDialog();
                 }
                 else
                 {
@@ -78,7 +58,38 @@ namespace HCI_Project
                     PasswordBox.BorderBrush = Brushes.Red;
                 }
             }
+        }
 
+        public void ShowToastNotification(ToastNotification toastNotification)
+        {
+            notificationManager.Show(toastNotification.Title, toastNotification.Message, toastNotification.Type, "WindowNotificationArea");
+        }
+
+        private List<User> ReadUsersFromFile()
+        {
+            List<User>retval = new List<User>();
+            using (StreamReader sr = new StreamReader("Users.txt"))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] parts = line.Split('|');
+                    string username = parts[0];
+                    string password = parts[1];
+                    bool isAdmin = parts[2] == "1";
+                    if (isAdmin)
+                    {
+                        User user = new User(username, password, UserRole.Admin);
+                        retval.Add(user);
+                    }
+                    else
+                    {
+                        User user = new User(username, password, UserRole.Visitor);
+                        retval.Add(user);
+                    }
+                }
+                return retval;
+            }
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -86,16 +97,24 @@ namespace HCI_Project
             this.Close();
         }
 
-        private void NavigateToPage(string pageName)
-        {
-            String pageUri = "Pages/" + pageName + ".xaml";
-            MainFrame.Navigate(new Uri(pageUri, UriKind.RelativeOrAbsolute));
-        }
-
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
         }
 
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to exit?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
     }
+
 }
+
