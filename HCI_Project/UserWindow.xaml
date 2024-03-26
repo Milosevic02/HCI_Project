@@ -10,6 +10,7 @@
         AllowsTransparency="True"
         Background="Transparent"
         WindowStyle="None"
+        Closing="Window_Closing"
         Title="UserWindow">
     
     <Canvas 
