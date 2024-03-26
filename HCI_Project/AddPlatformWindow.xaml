@@ -1,0 +1,344 @@
+﻿<Window x:Class="HCI_Project.AddPlatformWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa5="http://schemas.fontawesome.com/icons/"
+        xmlns:notifications="clr-namespace:Notification.Wpf.Controls;assembly=Notification.Wpf"
+        xmlns:local="clr-namespace:HCI_Project"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        mc:Ignorable="d"
+        Title="AddPlatformWindow">
+    <Canvas 
+     Width="500" 
+     Height="500">
+        <notifications:NotificationArea
+            x:Name="WindowNotificationArea"
+            Panel.ZIndex="1000"
+            MaxItems="3"
+            Position="TopLeft"
+            />
+        <Path
+          Name="UIPath"
+          Fill="White"
+          Stroke="Blue"
+          StrokeThickness="5">
+            <Path.Data>
+                <PathGeometry>
+                    <PathFigure StartPoint="50,0">
+                        <LineSegment Point="0,50" />
+                        <LineSegment Point="0,450" />
+                        <LineSegment Point="50,500" />
+                        <LineSegment Point="450,500" />
+                        <LineSegment Point="500,450" />
+                        <LineSegment Point="500,50" />
+                        <LineSegment Point="450,0" />
+                        <LineSegment Point="50,0" />
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+
+        <Grid
+         Width="400" 
+         Height="400"  
+         Margin="50,30,0,0"
+         >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Label
+            x:Name="TitleLabel"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Content="ADD PLATFORM"
+            FontFamily="Agency FB"
+            FontSize="34" />
+
+            <Label
+            x:Name="KOLabel"
+            Grid.Row="4"
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Top"
+            Content="KNOCKOUT:"
+            FontFamily="Agency FB"
+            FontSize="18" Margin="35,0,0,0" />
+
+            <TextBox
+                x:Name="KOTextBox"
+                Grid.Row="4"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                FontSize="18"
+                ToolTip="Input quantity"
+                Height="30"
+                Width="200"
+                PreviewTextInput="KOTextBox_PreviewTextInput"
+                GotFocus="KOTextBox_GotFocus"
+                LostFocus="KOTextBox_LostFocus"
+                >
+            </TextBox>
+
+            <Label
+            x:Name="KOErrorLabel"
+            Grid.Row="4"
+            Foreground="Red"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Content=""
+            FontFamily="Agency FB"
+            Margin="196,0,0,0" Grid.ColumnSpan="2" Height="25"/>
+
+            <Label
+            x:Name="NameLabel"
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Top"
+            Content="Name:"
+            FontFamily="Agency FB"
+            FontSize="18" Margin="-3,48,0,0" Grid.RowSpan="2" />
+
+            <TextBox
+                x:Name="NameTextBox"
+                Grid.Row="1"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                FontSize="18"
+                Height="30"
+                Width="200"
+                ToolTip="Input name"
+                GotFocus="NameTextBox_GotFocus"
+                LostFocus="NameTextBox_LostFocus"
+                >
+            </TextBox>
+
+            <Label
+            x:Name="NameErrorLabel"
+            Grid.Row="1"
+            Foreground="Red"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            HorizontalContentAlignment="Left"
+            VerticalContentAlignment="Bottom"
+            Content=""
+            FontFamily="Agency FB"
+            Margin="196,0,0,0" Grid.ColumnSpan="2" Height="25"/>
+
+            <Label
+            x:Name="DescriptionLabel"
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Left"
+            VerticalContentAlignment="Bottom"
+            Content="Description:"
+            FontFamily="Agency FB"
+            FontSize="18" Margin="-4,28,0,0" Grid.RowSpan="2" />
+
+            <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Grid.RowSpan="2"
+            ToolTip="Input description"
+            Width="375"
+            Height="180">
+
+                <ToolBar 
+                Name="EditorToolBar" 
+                DockPanel.Dock="Top"
+                Height="30"
+                >
+                    <ToggleButton
+                    Name="BoldToggleButton"
+                    Command="EditingCommands.ToggleBold"
+                    ToolTip="Bold"
+                    >
+                        <fa5:SvgAwesome
+                        Height="15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="Black"
+                        Icon="Solid_Bold"
+                        />
+                    </ToggleButton>
+
+                    <Separator />
+
+                    <ToggleButton
+                    Name="ItalicToggleButton"
+                    Command="EditingCommands.ToggleItalic"
+                    ToolTip="Italic"
+                    >
+                        <fa5:SvgAwesome
+                        Height="15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="Black"
+                        Icon="Solid_Italic"
+                        />
+                    </ToggleButton>
+
+                    <Separator />
+
+                    <ToggleButton
+                    Name="UnderlineToggleButton"
+                    Command="EditingCommands.ToggleUnderline"
+                    ToolTip="Underline"
+                    >
+                        <fa5:SvgAwesome
+                        Height="15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="Black"
+                        Icon="Solid_Underline"
+                        />
+                    </ToggleButton>
+
+                    <Separator />
+                    <ComboBox
+                    Name="FontFamilyComboBox"
+                    ToolTip="FontFamily"
+                    Width="85"
+                    IsTextSearchCaseSensitive="False"
+                    IsTextSearchEnabled="True"
+                    SelectionChanged="FontFamilyComboBox_SelectionChanged"/>
+
+                    <Separator />
+
+                    <ComboBox
+                    x:Name="ColorComboBox"
+                    ToolTip="Color"
+                    Width="85"
+                    IsTextSearchCaseSensitive="False"
+                    IsTextSearchEnabled="True"
+                    SelectionChanged="ColorComboBox_SelectionChanged" 
+                    >
+                    </ComboBox>
+
+                    <Separator />
+
+                    <ComboBox
+                    Name="FontSizeComboBox"
+                    ToolTip="FontSize"
+                    Width="85"
+                    IsTextSearchCaseSensitive="False"
+                    IsTextSearchEnabled="True"
+                    SelectionChanged="FontSizeComboBox_SelectionChanged">
+                    </ComboBox>
+                </ToolBar>
+
+                <RichTextBox
+                Name="EditorRichTextBox"
+                Width="375"
+                Height="100"
+                Margin="0,10,0,10"
+                SelectionChanged="EditorRichTextBox_SelectionChanged"
+                TextChanged="EditorRichTextBox_TextChanged"
+                />
+
+                <StatusBar Height="25" Width="365" VerticalAlignment="Bottom">
+                    <StatusBarItem>
+                        <TextBlock x:Name="wordCountTextBlock"/>
+                    </StatusBarItem>
+                </StatusBar>
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="5"
+                Grid.Column="0"
+                Orientation="Horizontal"
+                >
+                <Label
+                x:Name="ImageLabel"
+                Margin="0,10,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="Image:"
+                FontFamily="Agency FB"
+                FontSize="18" />
+
+                <Button 
+                Width="100" 
+                Height="30" 
+                x:Name="ImageButton"
+                Content="Browse"
+                FontSize="18"
+                Margin="10,5,0,0"
+                ToolTip="Select image"
+                Cursor="Hand"
+                Click="ImageButton_Click"
+                />
+            </StackPanel>
+
+            <Image 
+            x:Name="ImageControl" 
+            Grid.Row="5"
+            Grid.Column="1"
+            Width="60"
+            />
+        </Grid>
+
+        <Button 
+        Width="100" 
+        Height="50" 
+        x:Name="AddButton"
+        Content="Add"
+        FontSize="18" 
+        Canvas.Left="350" 
+        Canvas.Top="440" 
+        ToolTip="Add"
+        Cursor="Hand"
+        HorizontalAlignment="Left" 
+        VerticalAlignment="Center"
+        Click="AddButton_Click"
+        />
+
+        <Button 
+        Width="100" 
+        Height="50" 
+        x:Name="CloseButton"
+        Content="Close"
+        FontSize="18" 
+        Canvas.Left="50" 
+        Canvas.Top="440" 
+        ToolTip="Close"
+        Cursor="Hand"
+        HorizontalAlignment="Left" 
+        VerticalAlignment="Center"
+        Click="CloseButton_Click"
+        />
+
+    </Canvas>
+</Window>
