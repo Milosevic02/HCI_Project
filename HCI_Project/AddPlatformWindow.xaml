@@ -10,6 +10,7 @@
         Background="Transparent"
         WindowStyle="None"
         mc:Ignorable="d"
+        Closing="Window_Closing"
         Title="AddPlatformWindow">
     <Canvas 
      Width="500" 

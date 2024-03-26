@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,37 +23,98 @@ namespace HCI_Project
         public AddPlatformWindow()
         {
             InitializeComponent();
+            NameTextBox.Text = "Input student name";
+            NameTextBox.Foreground = Brushes.LightSlateGray;
+            KOTextBox.Text = "Input knockout number";
+            KOTextBox.Foreground = Brushes.LightSlateGray;
+            FontFamilyComboBox.ItemsSource = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
+
+
+
         }
 
         private void KOTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            throw new NotImplementedException();
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
         }
 
         private void KOTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (KOTextBox.Text.Trim().Equals("Input knockout number"))
+            {
+                KOTextBox.Text = "";
+                KOTextBox.Foreground = Brushes.Black;
+            }
         }
 
         private void KOTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
-
+            if (KOTextBox.Text.Trim().Equals(string.Empty))
+            {
+                KOTextBox.Text = "Input knockout number";
+                KOTextBox.Foreground = Brushes.LightSlateGray;
+            }
         }
 
         private void NameTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            if (NameTextBox.Text.Trim().Equals("Input platform name"))
+            {
+                NameTextBox.Text = "";
+                NameTextBox.Foreground = Brushes.Black;
+            }
 
         }
 
         private void NameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (NameTextBox.Text.Trim().Equals(string.Empty))
+            {
+                NameTextBox.Text = "Input platform name";
+                NameTextBox.Foreground = Brushes.LightSlateGray;
+            }
         }
 
-        private void EditorRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        private bool ValidateFormData()
         {
+            bool isValid = true;
 
+            if (NameTextBox.Text.Trim().Equals(string.Empty) || NameTextBox.Text.Trim().Equals("Input platform name"))
+            {
+                isValid = false;
+                NameErrorLabel.Content = "Form field cannot be left empty!";
+                NameTextBox.BorderBrush = Brushes.Red;
+            }
+            else
+            {
+                NameErrorLabel.Content = string.Empty;
+                NameTextBox.BorderBrush = Brushes.Gray;
+            }
+
+            if (KOTextBox.Text.Trim().Equals(string.Empty) || KOTextBox.Text.Trim().Equals("Input student surname"))
+            {
+                isValid = false;
+                KOErrorLabel.Content = "Form field cannot be left empty!";
+                KOTextBox.BorderBrush = Brushes.Red;
+            }
+            else
+            {
+                KOErrorLabel.Content = string.Empty;
+                KOTextBox.BorderBrush = Brushes.Gray;
+            }
+            return isValid;
+        }
+
+            private void EditorRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            object fontWeight = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
+            BoldToggleButton.IsChecked = (fontWeight != DependencyProperty.UnsetValue) && (fontWeight.Equals(FontWeights.Bold));
+
+            object fontFamily = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontFamilyProperty);
+            FontFamilyComboBox.SelectedItem = fontFamily;
         }
 
         private void EditorRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -67,6 +129,7 @@ namespace HCI_Project
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
+            this.Close();
 
         }
 
@@ -77,7 +140,10 @@ namespace HCI_Project
 
         private void FontFamilyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (FontFamilyComboBox.SelectedItem != null && !EditorRichTextBox.Selection.IsEmpty)
+            {
+                EditorRichTextBox.Selection.ApplyPropertyValue(Inline.FontFamilyProperty, FontFamilyComboBox.SelectedItem);
+            }
         }
 
         private void ColorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -88,6 +154,19 @@ namespace HCI_Project
         private void FontSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to exit?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
     }
 }
