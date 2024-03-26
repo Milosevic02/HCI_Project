@@ -26,13 +26,11 @@ namespace HCI_Project
     public partial class MainWindow : Window
     {
         public List<User> users = new List<User>();
-        private NotificationManager notificationManager;
+        public static MainWindow mainWindow = new MainWindow();
 
         public MainWindow()
         {
             InitializeComponent();
-            notificationManager = new NotificationManager();
-
             users = ReadUsersFromFile();
 
         }
@@ -48,6 +46,7 @@ namespace HCI_Project
                     PasswordErrorLabel.Content = string.Empty;
                     PasswordBox.BorderBrush = Brushes.Gray;
                     UserWindow userWindow = new UserWindow(user);
+                    this.Hide();
                     userWindow.ShowDialog();
                 }
                 else
@@ -58,11 +57,6 @@ namespace HCI_Project
                     PasswordBox.BorderBrush = Brushes.Red;
                 }
             }
-        }
-
-        public void ShowToastNotification(ToastNotification toastNotification)
-        {
-            notificationManager.Show(toastNotification.Title, toastNotification.Message, toastNotification.Type, "WindowNotificationArea");
         }
 
         private List<User> ReadUsersFromFile()

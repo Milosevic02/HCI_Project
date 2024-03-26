@@ -13,17 +13,12 @@
         SizeToContent="WidthAndHeight"
         WindowStyle="None"
         Closing="Window_Closing"
+        WindowStartupLocation="CenterScreen"
+
         mc:Ignorable="d">
 
     <Canvas Width="600" Height="600">
 
-        <notifications:NotificationArea
-            x:Name="WindowNotificationArea"
-            Panel.ZIndex="1000"
-            MaxItems="3"
-            Position="TopLeft"
-            />
-        
         <Path
             Name="UIPath"
             Fill="White"
