@@ -1,6 +1,7 @@
 ﻿using HCI_Project.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -19,8 +20,14 @@ namespace HCI_Project
     /// <summary>
     /// Interaction logic for UserWindow.xaml
     /// </summary>
+    /// 
     public partial class UserWindow : Window
     {
+
+        public ObservableCollection<StreamingPlatform> platforms = new ObservableCollection<StreamingPlatform>();
+
+
+
         public UserWindow(User user)
         {
             InitializeComponent();

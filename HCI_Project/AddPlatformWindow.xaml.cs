@@ -1,4 +1,7 @@
-﻿using System;
+﻿using HCI_Project.Helpers;
+using HCI_Project.Model;
+using Notification.Wpf;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -23,12 +26,11 @@ namespace HCI_Project
         public AddPlatformWindow()
         {
             InitializeComponent();
-            NameTextBox.Text = "Input student name";
+            NameTextBox.Text = "Input platform name";
             NameTextBox.Foreground = Brushes.LightSlateGray;
             KOTextBox.Text = "Input knockout number";
             KOTextBox.Foreground = Brushes.LightSlateGray;
             FontFamilyComboBox.ItemsSource = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
-
 
 
         }
@@ -81,6 +83,8 @@ namespace HCI_Project
         private bool ValidateFormData()
         {
             bool isValid = true;
+            string richText = new TextRange(EditorRichTextBox.Document.ContentStart, EditorRichTextBox.Document.ContentEnd).Text.Trim();
+
 
             if (NameTextBox.Text.Trim().Equals(string.Empty) || NameTextBox.Text.Trim().Equals("Input platform name"))
             {
@@ -94,7 +98,7 @@ namespace HCI_Project
                 NameTextBox.BorderBrush = Brushes.Gray;
             }
 
-            if (KOTextBox.Text.Trim().Equals(string.Empty) || KOTextBox.Text.Trim().Equals("Input student surname"))
+            if (KOTextBox.Text.Trim().Equals(string.Empty) || KOTextBox.Text.Trim().Equals("Input knockout number"))
             {
                 isValid = false;
                 KOErrorLabel.Content = "Form field cannot be left empty!";
@@ -105,6 +109,20 @@ namespace HCI_Project
                 KOErrorLabel.Content = string.Empty;
                 KOTextBox.BorderBrush = Brushes.Gray;
             }
+
+            if (richText.Equals(string.Empty))
+            {
+                isValid = false;
+                NameErrorLabel.Content = "RichTextBox field cannot be left empty!";
+                NameTextBox.BorderBrush = Brushes.Red;
+            }
+            else
+            {
+                NameErrorLabel.Content = string.Empty;
+                NameTextBox.BorderBrush = Brushes.Gray;
+            }
+
+
             return isValid;
         }
 
@@ -135,7 +153,21 @@ namespace HCI_Project
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            if (ValidateFormData())
+            {
+                StreamingPlatform platform = new StreamingPlatform();
 
+                mainWindow.Students.Add(newStudent);
+
+                mainWindow.ShowToastNotification(new ToastNotification("Success", "Student added to the Data Table", NotificationType.Success));
+
+                this.NavigationService.Navigate(new Uri("Pages/DataTablePage.xaml", UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                mainWindow.ShowToastNotification(new ToastNotification("Error", "Form fields are not correctly filled!", NotificationType.Error));
+            }
         }
 
         private void FontFamilyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
