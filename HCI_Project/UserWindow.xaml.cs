@@ -38,12 +38,11 @@ namespace HCI_Project
             notificationManager = new NotificationManager();
             userWindow = this;
             userWindow.ShowToastNotification(new ToastNotification("Success", "Logged in", NotificationType.Success));
-            Platforms = serializer.DeSerializeObject<ObservableCollection<StreamingPlatform>>("C:\\Users\\milos\\Documents\\Faculty\\6. Semestar\\HCI\\Projekat\\HCI_Project\\bin\\Debug\\net6.0-windows\\Platforms.xml");
+            Platforms = serializer.DeSerializeObject<ObservableCollection<StreamingPlatform>>("Platforms.xml");
             if (Platforms == null)
             {
                 Platforms = new ObservableCollection<StreamingPlatform>();
             }
-            Platforms.Add(new StreamingPlatform(5, "Youtube", "\"C:\\Users\\milos\\Downloads\\Images\\youtube.png\""));
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
@@ -71,7 +70,7 @@ namespace HCI_Project
 
         private void SaveDataAsXML()
         {
-            serializer.SerializeObject<ObservableCollection<StreamingPlatform>>(Platforms, "C:\\Users\\milos\\Documents\\Faculty\\6. Semestar\\HCI\\Projekat\\HCI_Project\\bin\\Debug\\net6.0-windows\\Platforms.xml");
+            serializer.SerializeObject<ObservableCollection<StreamingPlatform>>(Platforms, "Platforms.xml");
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
