@@ -11,13 +11,17 @@
         Background="Transparent"
         WindowStyle="None"
         Closing="Window_Closing"
+        WindowStartupLocation="CenterScreen"
+
         Title="UserWindow">
+    
+
     
     <Canvas 
      Width="800" 
      Height="500">
         <notifications:NotificationArea
-        x:Name="WindowNotificationArea"
+        x:Name="UserNotificationArea"
         Panel.ZIndex="1000"
         MaxItems="3"
         Position="TopLeft"
@@ -84,7 +88,7 @@
                 <DataGridTemplateColumn Header="Image" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding PicturePath}" Width="100" Height="100"/>
+                            <Image Source="{Binding Image}" Width="100" Height="100"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

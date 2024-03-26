@@ -26,7 +26,8 @@ namespace HCI_Project
     public partial class UserWindow : Window
     {
 
-        public ObservableCollection<StreamingPlatform> Platforms = new ObservableCollection<StreamingPlatform>();
+        public ObservableCollection<StreamingPlatform> Platforms;
+        public static UserWindow userWindow;
         private DataIO serializer = new DataIO();
         private NotificationManager notificationManager;
 
@@ -34,11 +35,15 @@ namespace HCI_Project
         public UserWindow(User user)
         {
             InitializeComponent();
-            Platforms = serializer.DeSerializeObject<ObservableCollection<StreamingPlatform>>("Platforms.xml");
+            notificationManager = new NotificationManager();
+            userWindow = this;
+            userWindow.ShowToastNotification(new ToastNotification("Success", "Logged in", NotificationType.Success));
+            Platforms = serializer.DeSerializeObject<ObservableCollection<StreamingPlatform>>("C:\\Users\\milos\\Documents\\Faculty\\6. Semestar\\HCI\\Projekat\\HCI_Project\\bin\\Debug\\net6.0-windows\\Platforms.xml");
             if (Platforms == null)
             {
                 Platforms = new ObservableCollection<StreamingPlatform>();
             }
+            Platforms.Add(new StreamingPlatform(5, "Youtube", "\"C:\\Users\\milos\\Downloads\\Images\\youtube.png\""));
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
@@ -49,6 +54,7 @@ namespace HCI_Project
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             AddPlatformWindow addPlatformWindow = new AddPlatformWindow();
+            userWindow.Hide();
             addPlatformWindow.ShowDialog();
         }
 
@@ -60,11 +66,12 @@ namespace HCI_Project
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            MainWindow.mainWindow.ShowDialog();
         }
 
         private void SaveDataAsXML()
         {
-            serializer.SerializeObject<ObservableCollection<StreamingPlatform>>(Platforms, "Platforms.xml");
+            serializer.SerializeObject<ObservableCollection<StreamingPlatform>>(Platforms, "C:\\Users\\milos\\Documents\\Faculty\\6. Semestar\\HCI\\Projekat\\HCI_Project\\bin\\Debug\\net6.0-windows\\Platforms.xml");
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -83,7 +90,7 @@ namespace HCI_Project
 
         public void ShowToastNotification(ToastNotification toastNotification)
         {
-            notificationManager.Show(toastNotification.Title, toastNotification.Message, toastNotification.Type, "WindowNotificationArea");
+            notificationManager.Show(toastNotification.Title, toastNotification.Message, toastNotification.Type, "UserNotificationArea");
         }
 
 
