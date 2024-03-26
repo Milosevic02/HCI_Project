@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
+using System.Windows;
 
 namespace HCI_Project.Model
 {
@@ -14,6 +16,7 @@ namespace HCI_Project.Model
         private string image;
         private string description;
         private DateTime date;
+        private bool isChecked;
 
         public StreamingPlatform(int rating, string name, string image)
         {
@@ -22,6 +25,7 @@ namespace HCI_Project.Model
             this.image = image;
             this.description = name + ".rtf";
             this.date = DateTime.Now;
+            this.isChecked = false;
         }
 
         public int Rating { get => rating; set => rating = value; }
@@ -42,6 +46,26 @@ namespace HCI_Project.Model
             {
                  Console.WriteLine("Faild to save in RTF");
             }
+        }
+
+        private FlowDocument ReadFromRTF()
+        {
+            FlowDocument flowDocument = new FlowDocument();
+
+            try
+            {
+                using (var stream = File.OpenRead(description))
+                {
+                    TextRange range = new TextRange(flowDocument.ContentStart, flowDocument.ContentEnd);
+                    range.Load(stream, DataFormats.Rtf);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error reading RTF file: {ex.Message}");
+            }
+
+            return flowDocument;
         }
 
 
