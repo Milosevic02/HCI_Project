@@ -178,7 +178,11 @@ namespace HCI_Project
 
         private void ColorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (ColorComboBox.SelectedItem != null && !EditorRichTextBox.Selection.IsEmpty)
+            {
+                Brush selectedBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(ColorComboBox.SelectedItem.ToString()));
+                EditorRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, selectedBrush);
+            }
         }
 
         private void FontSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
