@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,20 @@ namespace HCI_Project.Model
         public string Image { get => image; set => image = value; }
         public string Description { get => description; set => description = value; }
         public DateTime Date { get => date; set => date = value; }
+
+        public void SaveAsRTF(string text)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(description))
+                {
+                    sw.Write(text);
+                }
+            }catch (IOException ex)
+            {
+                 Console.WriteLine("Faild to save in RTF");
+            }
+        }
 
 
     }

@@ -1,4 +1,6 @@
-﻿using HCI_Project.Model;
+﻿using HCI_Project.Helpers;
+using HCI_Project.Model;
+using Notification.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,13 +26,19 @@ namespace HCI_Project
     public partial class UserWindow : Window
     {
 
-        public ObservableCollection<StreamingPlatform> platforms = new ObservableCollection<StreamingPlatform>();
-
+        public ObservableCollection<StreamingPlatform> Platforms = new ObservableCollection<StreamingPlatform>();
+        private DataIO serializer = new DataIO();
+        private NotificationManager notificationManager;
 
 
         public UserWindow(User user)
         {
             InitializeComponent();
+            Platforms = serializer.DeSerializeObject<ObservableCollection<StreamingPlatform>>("Platforms.xml");
+            if (Platforms == null)
+            {
+                Platforms = new ObservableCollection<StreamingPlatform>();
+            }
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
@@ -54,17 +62,28 @@ namespace HCI_Project
             this.Close();
         }
 
+        private void SaveDataAsXML()
+        {
+            serializer.SerializeObject<ObservableCollection<StreamingPlatform>>(Platforms, "Platforms.xml");
+        }
+
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to exit?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (messageBoxResult == MessageBoxResult.Yes)
             {
+                SaveDataAsXML();
             }
             else
             {
                 e.Cancel = true;
             }
+        }
+
+        public void ShowToastNotification(ToastNotification toastNotification)
+        {
+            notificationManager.Show(toastNotification.Title, toastNotification.Message, toastNotification.Type, "WindowNotificationArea");
         }
 
 

@@ -110,17 +110,17 @@ namespace HCI_Project
                 KOTextBox.BorderBrush = Brushes.Gray;
             }
 
-            if (richText.Equals(string.Empty))
-            {
-                isValid = false;
-                NameErrorLabel.Content = "RichTextBox field cannot be left empty!";
-                NameTextBox.BorderBrush = Brushes.Red;
-            }
-            else
-            {
-                NameErrorLabel.Content = string.Empty;
-                NameTextBox.BorderBrush = Brushes.Gray;
-            }
+            //if (richText.Equals(string.Empty))
+            //{
+            //    isValid = false;
+            //    NameErrorLabel.Content = "RichTextBox field cannot be left empty!";
+            //    NameTextBox.BorderBrush = Brushes.Red;
+            //}
+            //else
+            //{
+            //    NameErrorLabel.Content = string.Empty;
+            //    NameTextBox.BorderBrush = Brushes.Gray;
+            //}
 
 
             return isValid;
@@ -153,20 +153,18 @@ namespace HCI_Project
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            UserWindow userWindow = (UserWindow)Application.Current.MainWindow;
             if (ValidateFormData())
             {
-                StreamingPlatform platform = new StreamingPlatform();
-
-                mainWindow.Students.Add(newStudent);
-
-                mainWindow.ShowToastNotification(new ToastNotification("Success", "Student added to the Data Table", NotificationType.Success));
-
-                this.NavigationService.Navigate(new Uri("Pages/DataTablePage.xaml", UriKind.RelativeOrAbsolute));
+                StreamingPlatform platform = new StreamingPlatform(Int32.Parse(KOTextBox.Text),NameTextBox.Text,"netflix.png");
+                string richText = new TextRange(EditorRichTextBox.Document.ContentStart, EditorRichTextBox.Document.ContentEnd).Text.Trim();
+                platform.SaveAsRTF(richText);
+                userWindow.ShowToastNotification(new ToastNotification("Success", "Student added to the Data Table", NotificationType.Success));
+                this.Close();
             }
             else
             {
-                mainWindow.ShowToastNotification(new ToastNotification("Error", "Form fields are not correctly filled!", NotificationType.Error));
+                userWindow.ShowToastNotification(new ToastNotification("Error", "Form fields are not correctly filled!", NotificationType.Error));
             }
         }
 
@@ -185,7 +183,10 @@ namespace HCI_Project
 
         private void FontSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (FontSizeComboBox.SelectedItem != null && !EditorRichTextBox.Selection.IsEmpty)
+            {
+                EditorRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, FontSizeComboBox.SelectedItem);
+            }
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
