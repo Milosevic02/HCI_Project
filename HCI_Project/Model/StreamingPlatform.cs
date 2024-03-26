@@ -9,6 +9,7 @@ using System.Windows;
 
 namespace HCI_Project.Model
 {
+    [Serializable]
     public class StreamingPlatform
     {
         private int rating;
@@ -18,6 +19,10 @@ namespace HCI_Project.Model
         private DateTime date;
         private bool isChecked;
 
+        public StreamingPlatform()
+        {
+
+        }
         public StreamingPlatform(int rating, string name, string image)
         {
             this.rating = rating;
@@ -27,6 +32,8 @@ namespace HCI_Project.Model
             this.date = DateTime.Now;
             this.isChecked = false;
         }
+
+
 
         public int Rating { get => rating; set => rating = value; }
         public string Name { get => name; set => name = value; }

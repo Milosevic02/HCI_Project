@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -40,10 +41,23 @@ namespace HCI_Project
             FontFamilyComboBox.ItemsSource = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
             List<double> fontSizes = new List<double> { 8, 10, 12, 14, 16, 18, 20, 24, 28, 32 };
             FontSizeComboBox.ItemsSource = fontSizes;
+            InitializeColor();
 
 
 
+        }
 
+        private void InitializeColor()
+        {
+            foreach (PropertyInfo prop in typeof(Colors).GetProperties())
+            {
+                Color color = (Color)prop.GetValue(null, null);
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = prop.Name;
+                item.Background = new SolidColorBrush(color);
+                item.Width = 100;
+                ColorComboBox.Items.Add(item);
+            }
         }
 
         private void KOTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -119,6 +133,11 @@ namespace HCI_Project
             {
                 KOErrorLabel.Content = string.Empty;
                 KOTextBox.BorderBrush = Brushes.Gray;
+            }
+
+            if(SelfPicture.Equals(string.Empty))
+            {
+                isValid = false;
             }
 
             //if (richText.Equals(string.Empty))
@@ -224,10 +243,13 @@ namespace HCI_Project
 
         private void ColorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ColorComboBox.SelectedItem != null && !EditorRichTextBox.Selection.IsEmpty)
+            if (ColorComboBox.SelectedItem != null)
             {
-                Brush selectedBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(ColorComboBox.SelectedItem.ToString()));
-                EditorRichTextBox.Selection.ApplyPropertyValue(TextElement.ForegroundProperty, selectedBrush);
+                ComboBoxItem selectedItem = (ComboBoxItem)ColorComboBox.SelectedItem;
+                string colorName = (string)selectedItem.Content;
+                Color selectedColor = (Color)typeof(Colors).GetProperty(colorName).GetValue(null, null);
+
+                EditorRichTextBox.Selection.ApplyPropertyValue(Inline.ForegroundProperty, new SolidColorBrush(selectedColor));
             }
         }
 
