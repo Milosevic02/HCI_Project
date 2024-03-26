@@ -1,11 +1,13 @@
 ﻿using HCI_Project.Helpers;
 using HCI_Project.Model;
+using Microsoft.Win32;
 using Notification.Wpf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,14 +25,23 @@ namespace HCI_Project
     /// </summary>
     public partial class AddPlatformWindow : Window
     {
+        private NotificationManager notificationManager;
+        public string SelfPicture;
+
+
         public AddPlatformWindow()
         {
             InitializeComponent();
+            notificationManager = new NotificationManager();
             NameTextBox.Text = "Input platform name";
             NameTextBox.Foreground = Brushes.LightSlateGray;
             KOTextBox.Text = "Input knockout number";
             KOTextBox.Foreground = Brushes.LightSlateGray;
             FontFamilyComboBox.ItemsSource = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
+            List<double> fontSizes = new List<double> { 8, 10, 12, 14, 16, 18, 20, 24, 28, 32 };
+            FontSizeComboBox.ItemsSource = fontSizes;
+
+
 
 
         }
@@ -127,44 +138,79 @@ namespace HCI_Project
         }
 
             private void EditorRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            object fontWeight = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
-            BoldToggleButton.IsChecked = (fontWeight != DependencyProperty.UnsetValue) && (fontWeight.Equals(FontWeights.Bold));
+            {
+                object fontWeight = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
+                BoldToggleButton.IsChecked = (fontWeight != DependencyProperty.UnsetValue) && (fontWeight.Equals(FontWeights.Bold));
 
-            object fontFamily = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontFamilyProperty);
-            FontFamilyComboBox.SelectedItem = fontFamily;
-        }
+                object fontFamily = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontFamilyProperty);
+                FontFamilyComboBox.SelectedItem = fontFamily;
+            }
 
         private void EditorRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            WordCounter(EditorRichTextBox.Document);
+        }
+
+        private void WordCounter(FlowDocument doc)
+        {
+
+            TextRange txtRange = new TextRange(doc.ContentStart, doc.ContentEnd);
+            string txt = txtRange.Text;
+
+            Regex regex = new Regex(@"\b\w+\b");
+
+
+            int wordCount = regex.Matches(txt).Count;
+            wordCountTextBlock.Text = wordCount.ToString();
+            Console.WriteLine(wordCount.ToString());
 
         }
 
         private void ImageButton_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a picture";
+            op.Filter = "All supported graphics|.jpg;.jpeg;.png|" +
+              "JPEG (.jpg;.jpeg)|.jpg;.jpeg|" +
+              "Portable Network Graphic (.png)|*.png";
+            if (op.ShowDialog() == true)
+            {
 
+                //PlayerImage.Source = new BitmapImage(new Uri(op.FileName));
+                SelfPicture = new Uri(op.FileName).ToString();
+
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(SelfPicture, UriKind.RelativeOrAbsolute);
+                bitmap.EndInit();
+
+                ImageControl.Source = bitmap;
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            UserWindow.userWindow.ShowDialog();
 
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            UserWindow userWindow = (UserWindow)Application.Current.MainWindow;
+            UserWindow userWindow = UserWindow.userWindow;
             if (ValidateFormData())
             {
-                StreamingPlatform platform = new StreamingPlatform(Int32.Parse(KOTextBox.Text),NameTextBox.Text,"netflix.png");
+                StreamingPlatform platform = new StreamingPlatform(Int32.Parse(KOTextBox.Text),NameTextBox.Text,SelfPicture);
                 string richText = new TextRange(EditorRichTextBox.Document.ContentStart, EditorRichTextBox.Document.ContentEnd).Text.Trim();
                 platform.SaveAsRTF(richText);
-                userWindow.ShowToastNotification(new ToastNotification("Success", "Student added to the Data Table", NotificationType.Success));
-                this.Close();
+                userWindow.Platforms.Add(platform);
+                userWindow.ShowToastNotification(new ToastNotification("Success", "Platform added to the Data Table", NotificationType.Success));
+                this.Hide();
+                userWindow.ShowDialog();
             }
             else
             {
-                userWindow.ShowToastNotification(new ToastNotification("Error", "Form fields are not correctly filled!", NotificationType.Error));
+                this.ShowToastNotification(new ToastNotification("Error", "Form fields are not correctly filled!", NotificationType.Error));
             }
         }
 
@@ -204,6 +250,10 @@ namespace HCI_Project
             {
                 e.Cancel = true;
             }
+        }
+        public void ShowToastNotification(ToastNotification toastNotification)
+        {
+            notificationManager.Show(toastNotification.Title, toastNotification.Message, toastNotification.Type, "AddNotificationArea");
         }
     }
 }
