@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HCI_Project.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,28 @@ namespace HCI_Project
     /// </summary>
     public partial class DisplayWindow : Window
     {
-        public DisplayWindow()
+        public static DisplayWindow displayWindow;
+
+        public DisplayWindow(StreamingPlatform platform)
         {
             InitializeComponent();
+            displayWindow = this;
+            NameTextBlock.Text = platform.Name;
+            UsersTextBlock.Text = platform.Rating.ToString();
+            EditorRichTextBox.Document = platform.ReadFromRTF();
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(platform.Image, UriKind.RelativeOrAbsolute);
+            bitmap.EndInit();
+            ImageControl.Source = bitmap;
+            DateTextBlock.Text = platform.Date.ToString();
+
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            UserWindow.userWindow.ShowDialog();
         }
     }
 }

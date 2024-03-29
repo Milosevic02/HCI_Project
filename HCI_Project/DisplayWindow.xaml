@@ -11,7 +11,6 @@
         WindowStyle="None"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         >
     <Canvas 
      Width="500" 
@@ -49,17 +48,17 @@
             Width="200"
             Height="35"
             Margin="270,80,0,0"
-            Text="Name: Perfume1"
+            Text="Name: Platform1"
             FontSize="25"
             TextAlignment="Left"
             />
 
         <TextBlock
-            x:Name="QuantityTextBlock"
+            x:Name="UsersTextBlock"
             Width="200"
             Height="35"
             Margin="270,125,0,0"
-            Text="Quantity: 15"
+            Text="Users: 15"
             FontSize="25"
             TextAlignment="Left"
             />
