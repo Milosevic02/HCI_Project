@@ -48,8 +48,12 @@ namespace HCI_Project
             bitmap.EndInit();
             ImageControl.Source = bitmap;
             FontFamilyComboBox.ItemsSource = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
-            List<double> fontSizes = new List<double> { 8, 10, 12, 14, 16, 18, 20, 24, 28, 32 };
-            FontSizeComboBox.ItemsSource = fontSizes;
+            for (int i = 8; i <= 34; i += 2)
+            {
+                ComboBoxItem item = new ComboBoxItem();
+                item.Content = i;
+                FontSizeComboBox.Items.Add(item);
+            }
             InitializeColor();
         }
         private void InitializeColor()
@@ -167,19 +171,45 @@ namespace HCI_Project
 
         private void FontSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (FontSizeComboBox.SelectedItem != null && !EditorRichTextBox.Selection.IsEmpty)
+            if (FontSizeComboBox.SelectedItem != null)
             {
-                EditorRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, FontSizeComboBox.SelectedItem);
+                ComboBoxItem selectedItem = (ComboBoxItem)FontSizeComboBox.SelectedItem;
+                double selectedFontSize = Convert.ToDouble(selectedItem.Content);
+
+                EditorRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, selectedFontSize);
             }
         }
 
         private void EditorRichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            object fontWeight = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty);
-            BoldToggleButton.IsChecked = (fontWeight != DependencyProperty.UnsetValue) && (fontWeight.Equals(FontWeights.Bold));
+            object fontWeight = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontWeightProperty); //FontWeightProperty - koristi se za debljinu teksta
+            BoldToggleButton.IsChecked = (fontWeight != DependencyProperty.UnsetValue) && (fontWeight.Equals(FontWeights.Bold)); //postavlja isChecked toogleButton-a na true ili false
 
-            object fontFamily = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontFamilyProperty);
+            object fontStyle = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontStyleProperty); //FontStyle - se koristi za postavljanje stila fonta teksta
+            ItalicToggleButton.IsChecked = (fontStyle != DependencyProperty.UnsetValue) && (fontStyle.Equals(FontStyles.Italic));//postavlja isChecked toogleButton-a na true ili false
+
+            object isUnderlined = EditorRichTextBox.Selection.GetPropertyValue(Inline.TextDecorationsProperty); //TextDecorations - se koristi za postavljanje dekoracija teksta
+            UnderlineToggleButton.IsChecked = (isUnderlined != DependencyProperty.UnsetValue) && ((TextDecorationCollection)isUnderlined).Any(d => d.Location == TextDecorationLocation.Underline);//postavlja isChecked toogleButton-a na true ili false
+
+            object fontFamily = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontFamilyProperty); //Font Family
             FontFamilyComboBox.SelectedItem = fontFamily;
+
+
+            object foreground = EditorRichTextBox.Selection.GetPropertyValue(Inline.ForegroundProperty); //Color
+            SolidColorBrush foregroundBrush = foreground as SolidColorBrush;
+            if (foregroundBrush != null)
+            {
+                ColorComboBox.SelectedItem = ColorComboBox.Items.Cast<ComboBoxItem>().FirstOrDefault(item => ((SolidColorBrush)item.Background).Color == foregroundBrush.Color);
+            }
+
+
+            object fontSize = EditorRichTextBox.Selection.GetPropertyValue(Inline.FontSizeProperty); //Font Size
+            double fontSizeValue;
+            if (double.TryParse(fontSize.ToString(), out fontSizeValue))
+            {
+                ComboBoxItem fontSizeItem = FontSizeComboBox.Items.Cast<ComboBoxItem>().FirstOrDefault(item => Convert.ToDouble(item.Content) == fontSizeValue);
+                FontSizeComboBox.SelectedItem = fontSizeItem;
+            }
         }
 
         private void WordCounter(FlowDocument doc)
