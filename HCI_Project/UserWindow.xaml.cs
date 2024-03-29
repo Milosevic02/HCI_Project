@@ -144,7 +144,12 @@ namespace HCI_Project
 
             if (messageBoxResult == MessageBoxResult.Yes)
             {
+                foreach(StreamingPlatform platform in Platforms)
+                {
+                    platform.IsChecked = false;
+                }
                 SaveDataAsXML();
+                
                 this.Hide();
                 MainWindow.mainWindow.ShowDialog();
 
