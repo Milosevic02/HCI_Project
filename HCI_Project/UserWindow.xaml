@@ -45,7 +45,7 @@
                 </PathGeometry>
             </Path.Data>
             <Path.Fill>
-                <ImageBrush ImageSource="C:\Users\milos\Documents\Faculty\6. Semestar\HCI\Projekat\HCI_Project\bin\Debug\net6.0-windows\Images\bg-image.jpeg" />
+                <ImageBrush ImageSource="Images\bg-image.jpeg" />
             </Path.Fill>
         </Path>
 

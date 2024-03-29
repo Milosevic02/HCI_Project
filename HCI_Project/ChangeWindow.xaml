@@ -25,7 +25,6 @@
             />
         <Path 
         Name="UIPath"
-        Fill="White"
         Stroke="Pink"
         StrokeThickness="5">
             <Path.Data>
@@ -42,6 +41,10 @@
                     </PathFigure>
                 </PathGeometry>
             </Path.Data>
+
+            <Path.Fill>
+                <ImageBrush ImageSource="Images\bg-image.jpeg" />
+            </Path.Fill>
         </Path>
 
         <Grid

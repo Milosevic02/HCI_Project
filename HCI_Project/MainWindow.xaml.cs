@@ -32,9 +32,7 @@ namespace HCI_Project
         {
             InitializeComponent();
             users = ReadUsersFromFile();
-            //ImageBrush imageBrush = new ImageBrush();
-            //imageBrush.ImageSource = new BitmapImage(new Uri("Images/bg-image.jpeg", UriKind.Relative));
-            //UIPath = imageBrush;
+            
 
         }
 
