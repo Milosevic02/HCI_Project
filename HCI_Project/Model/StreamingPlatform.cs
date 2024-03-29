@@ -12,7 +12,7 @@ namespace HCI_Project.Model
     [Serializable]
     public class StreamingPlatform
     {
-        private int rating;
+        private double rating;
         private string name;
         private string image;
         private string description;
@@ -23,7 +23,7 @@ namespace HCI_Project.Model
         {
 
         }
-        public StreamingPlatform(int rating, string name, string image)
+        public StreamingPlatform(double rating, string name, string image)
         {
             this.rating = rating;
             this.name = name;
@@ -35,7 +35,7 @@ namespace HCI_Project.Model
 
 
 
-        public int Rating { get => rating; set => rating = value; }
+        public double Rating { get => rating; set => rating = value; }
         public string Name { get => name; set => name = value; }
         public string Image { get => image; set => image = value; }
         public string Description { get => description; set => description = value; }
