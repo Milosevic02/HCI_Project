@@ -10,7 +10,6 @@
         Background="Transparent"
         WindowStyle="None"
         mc:Ignorable="d"
-        Closing="Window_Closing"
         WindowStartupLocation="CenterScreen"
 
         Title="AddPlatformWindow">
