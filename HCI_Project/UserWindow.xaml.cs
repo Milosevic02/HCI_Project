@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,11 +32,19 @@ namespace HCI_Project
         public static UserWindow userWindow;
         private DataIO serializer = new DataIO();
         private NotificationManager notificationManager;
+        private bool isAdmin = true;
+        private StreamingPlatform SelectedPlatform;
 
 
         public UserWindow(User user)
         {
             InitializeComponent();
+            SelectedPlatform = null;
+            if (user.Role == UserRole.Visitor) { 
+                isAdmin = false;
+                AddButton.Visibility = Visibility.Hidden;
+                DeleteButton.Visibility = Visibility.Hidden;
+            }
             notificationManager = new NotificationManager();
             userWindow = this;
             userWindow.ShowToastNotification(new ToastNotification("Success", "Logged in", NotificationType.Success));
@@ -43,11 +53,32 @@ namespace HCI_Project
             {
                 Platforms = new ObservableCollection<StreamingPlatform>();
             }
+            foreach(StreamingPlatform platform in Platforms)
+            {
+                Console.WriteLine(platform.Name);
+            }
+            DataContext = this;
+
+            PlatformsDataGrid.ItemsSource = Platforms;
+
         }
 
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (!isAdmin)
+            {
+                userWindow.Hide();
+                DisplayWindow displayWindow = new DisplayWindow(SelectedPlatform);  
+
+                displayWindow.ShowDialog();
+
+            }
+            else
+            {
+                userWindow.Hide();
+                ChangeWindow changeWindow = new ChangeWindow(SelectedPlatform);
+                changeWindow.ShowDialog();
+            }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -59,10 +90,42 @@ namespace HCI_Project
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            {
+                int count = 0;
+                foreach (StreamingPlatform p in Platforms)
+                {
+                    if (p.IsChecked)
+                    {
+                        count++;
+                    }
+                }
+
+                if (count == 0)
+                {
+                    userWindow.ShowToastNotification(new ToastNotification("Error", "Please check player to delete", NotificationType.Error));
+                }
+
+                List<StreamingPlatform> Temp = Platforms.ToList();
+                foreach (StreamingPlatform ap in Temp)
+                {
+                    if (ap.IsChecked)
+                    {
+                        this.Platforms.Remove(ap);
+
+                        string filePath = ap.Description;
+                        if (File.Exists(filePath))
+                        {
+
+                            File.Delete(filePath);
+
+                        }
+                    }
+                }
+
+            }
         }
 
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
+            private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
             MainWindow.mainWindow.ShowDialog();
@@ -92,6 +155,16 @@ namespace HCI_Project
             notificationManager.Show(toastNotification.Title, toastNotification.Message, toastNotification.Type, "UserNotificationArea");
         }
 
-
+        private void PlatformsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                SelectedPlatform = (StreamingPlatform)PlatformsDataGrid.SelectedItem;
+            }
+            catch
+            {
+                SelectedPlatform = null;
+            }
+        }
     }
 }

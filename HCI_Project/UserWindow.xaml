@@ -50,12 +50,14 @@
         <Label x:Name="TitleLabel" Content="Table with link" FontSize="36" Canvas.Left="283" Canvas.Top="32"></Label>
 
         <DataGrid 
-            x:Name="PerfumesDataGrid" 
+            x:Name="PlatformsDataGrid" 
             ItemsSource="{Binding Platforms}" 
             AutoGenerateColumns="False"
+            CanUserAddRows="False"
             ScrollViewer.CanContentScroll="False" 
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ScrollViewer.HorizontalScrollBarVisibility="Auto" Canvas.Left="119" Canvas.Top="118" Height="264" Width="560" HorizontalAlignment="Center" VerticalAlignment="Center"
+            SelectionChanged="PlatformsDataGrid_SelectionChanged"
             >
 
             <DataGrid.ColumnHeaderStyle>
