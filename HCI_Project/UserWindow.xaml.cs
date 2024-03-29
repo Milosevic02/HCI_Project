@@ -90,19 +90,23 @@ namespace HCI_Project
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to delete?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
             {
                 int count = 0;
                 foreach (StreamingPlatform p in Platforms)
                 {
                     if (p.IsChecked)
                     {
+
                         count++;
                     }
                 }
 
                 if (count == 0)
                 {
-                    userWindow.ShowToastNotification(new ToastNotification("Error", "Please check player to delete", NotificationType.Error));
+                    userWindow.ShowToastNotification(new ToastNotification("Error", "Please check platform to delete", NotificationType.Error));
                 }
 
                 List<StreamingPlatform> Temp = Platforms.ToList();
@@ -121,7 +125,6 @@ namespace HCI_Project
                         }
                     }
                 }
-
             }
         }
 
