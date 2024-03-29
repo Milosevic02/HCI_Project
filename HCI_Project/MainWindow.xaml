@@ -17,54 +17,56 @@
 
         mc:Ignorable="d">
 
-    <Canvas Width="600" Height="600">
+
+    <Canvas Width="800" Height="800">
 
         <Path
             Name="UIPath"
-            Fill="White"
             Stroke="DarkGray"
             StrokeThickness="2" HorizontalAlignment="Center" Canvas.Top="-1.415" VerticalAlignment="Top">
+            <Path.Fill>
+                <ImageBrush ImageSource="Images\bg-image.jpeg" />
+            </Path.Fill>
             <Path.Data>
                 <PathGeometry>
-                    <PathFigure StartPoint="300,0">
-                        <LineSegment Point="0,300" />
-                        <LineSegment Point="300,600" />
-                        <LineSegment Point="600,300" />
-                        <LineSegment Point="300,0" />
+                    <PathFigure StartPoint="400,0">
+                        <LineSegment Point="0,400" />
+                        <LineSegment Point="400,800" />
+                        <LineSegment Point="800,400" />
+                        <LineSegment Point="400,0" />
                     </PathFigure>
                 </PathGeometry>
             </Path.Data>
+           
         </Path>
 
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="2" Text="Username:" Margin="168,210,-158,-211"/>
-            <TextBox Grid.Row="2" Name="UsernameTextBox" Margin="229,208,-386,-211"/>
-            <Label 
+            <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+           
+
+                    <TextBlock Foreground="White" Grid.Row="2" Text="Username:" Margin="248,253,-238,-254"/>
+                    <TextBox Grid.Row="2" Name="UsernameTextBox" Margin="392,254,-549,-257"/>
+                    <Label 
                 x:Name="UsernameErrorLabel"
                 Content=""
-                Foreground="Red" Margin="229,231,-386,-236" Grid.Row="2" RenderTransformOrigin="0.321,1.019" Height="25"/>
+                Foreground="Red" Margin="393,287,-550,-292" Grid.Row="2" RenderTransformOrigin="0.321,1.019" Height="25"/>
 
-            <TextBlock Grid.Row="2" Text="Password:" Margin="168,282,-158,-297"/>
-            <PasswordBox Grid.Row="2" Name="PasswordBox" Margin="229,282,-386,-285" RenderTransformOrigin="1.647,1.947"/>
-            <Label 
+            <TextBlock Foreground="White" Grid.Row="2" Text="Password:" Margin="248,306,-238,-321"/>
+                    <PasswordBox Grid.Row="2" Name="PasswordBox" Margin="393,312,-550,-315" RenderTransformOrigin="1.647,1.947"/>
+                    <Label 
                 x:Name="PasswordErrorLabel"
                 Content=""
-                Foreground="Red" Margin="229,305,-386,-310" Grid.Row="2" RenderTransformOrigin="0.506,1.028" Height="25"/>
-            <Button Grid.Row="2" Content="Login" Click="LoginButton_Click" Margin="216,357,-303,-386"/>
-            <Button Grid.Row="2" Content="Exit" Click="ExitButton_Click" Margin="217,438,-303,-466"></Button>
+                Foreground="Red" Margin="393,340,-550,-345" Grid.Row="2" RenderTransformOrigin="0.506,1.028" Height="25"/>
+                    <Button Grid.Row="2" Content="Login" Click="LoginButton_Click" Margin="317,568,-404,-597"/>
+                    <Button Grid.Row="2" Content="Exit" Click="ExitButton_Click" Margin="317,654,-402,-682"></Button>
         </Grid>
 
     </Canvas>
-
-
-
-
 
 
 

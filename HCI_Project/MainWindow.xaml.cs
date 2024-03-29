@@ -32,6 +32,9 @@ namespace HCI_Project
         {
             InitializeComponent();
             users = ReadUsersFromFile();
+            //ImageBrush imageBrush = new ImageBrush();
+            //imageBrush.ImageSource = new BitmapImage(new Uri("Images/bg-image.jpeg", UriKind.Relative));
+            //UIPath = imageBrush;
 
         }
 
@@ -51,11 +54,13 @@ namespace HCI_Project
                 }
                 else
                 {
-                    UsernameErrorLabel.Content = "Wrong input";
+                    UsernameErrorLabel.Content = "Incorrect username or password";
                     UsernameTextBox.BorderBrush = Brushes.Red;
-                    PasswordErrorLabel.Content = "Wrong input";
+                    PasswordErrorLabel.Content = "Incorrect username or password";
                     PasswordBox.BorderBrush = Brushes.Red;
                 }
+
+
             }
         }
 
