@@ -17,15 +17,76 @@
 
         mc:Ignorable="d">
 
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="CustomButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                                x:Name="border"
+                                Background="White"
+                                BorderBrush="Black"
+                                BorderThickness="3"
+                                CornerRadius="15"
+                                Width="150"
+                                Height="50"
+                                Cursor="Hand">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+            <Setter Property="FontSize" Value="18"/>
+
+        </Style>
+        <Style TargetType="TextBox" x:Key="CustomTextBoxStyle">
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style TargetType="PasswordBox" x:Key="CustomPasswordBoxStyle">
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="CustomTextBlockStyle">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Text" Value="Center"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+
+
+        </Style>
+    </Window.Resources>
+
 
     <Canvas Width="800" Height="800">
 
         <Path
             Name="UIPath"
-            Stroke="DarkGray"
-            StrokeThickness="2" HorizontalAlignment="Center" Canvas.Top="-1.415" VerticalAlignment="Top">
+            Stroke="MediumPurple"
+StrokeThickness="5" HorizontalAlignment="Center" Canvas.Top="-1.415" VerticalAlignment="Top">
             <Path.Fill>
-                <ImageBrush ImageSource="Images\bg-image.jpeg" />
+                <ImageBrush ImageSource="C:\Users\milos\Documents\Faculty\6. Semestar\HCI\Projekat\HCI_Project\Images\bg-image.jpeg" />
             </Path.Fill>
             <Path.Data>
                 <PathGeometry>
@@ -47,23 +108,23 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-           
 
-                    <TextBlock Foreground="White" Grid.Row="2" Text="Username:" Margin="248,253,-238,-254"/>
-                    <TextBox Grid.Row="2" Name="UsernameTextBox" Margin="392,254,-549,-257"/>
+
+            <TextBlock Style="{StaticResource CustomTextBlockStyle}" Grid.Row="2" Text="Username:" Margin="262,242,-252,-243"/>
+            <TextBox Style="{StaticResource CustomTextBoxStyle}" Grid.Row="2" Name="UsernameTextBox" Margin="392,242,-549,-245"/>
                     <Label 
                 x:Name="UsernameErrorLabel"
                 Content=""
-                Foreground="Red" Margin="393,287,-550,-292" Grid.Row="2" RenderTransformOrigin="0.321,1.019" Height="25"/>
+                Foreground="Red" Margin="397,282,-554,-278" Grid.Row="2"/>
 
-            <TextBlock Foreground="White" Grid.Row="2" Text="Password:" Margin="248,306,-238,-321"/>
-                    <PasswordBox Grid.Row="2" Name="PasswordBox" Margin="393,312,-550,-315" RenderTransformOrigin="1.647,1.947"/>
+            <TextBlock Style="{StaticResource CustomTextBlockStyle}" Foreground="White" Grid.Row="2" Text="Password:" Margin="262,312,-252,-315"/>
+            <PasswordBox  Style="{StaticResource CustomPasswordBoxStyle}" Grid.Row="2" Name="PasswordBox" Margin="392,312,-549,-315" RenderTransformOrigin="1.647,1.947"/>
                     <Label 
                 x:Name="PasswordErrorLabel"
                 Content=""
-                Foreground="Red" Margin="393,340,-550,-345" Grid.Row="2" RenderTransformOrigin="0.506,1.028" Height="25"/>
-                    <Button Grid.Row="2" Content="Login" Click="LoginButton_Click" Margin="317,568,-404,-597"/>
-                    <Button Grid.Row="2" Content="Exit" Click="ExitButton_Click" Margin="317,654,-402,-682"></Button>
+                Foreground="Red" Margin="398,344,-555,-340" Grid.Row="2" RenderTransformOrigin="0.506,1.028" Height="25"/>
+            <Button Style="{StaticResource CustomButtonStyle}" Grid.Row="2" Content="Login" Click="LoginButton_Click" Margin="317,568,-404,-597"/>
+            <Button Style="{StaticResource CustomButtonStyle}" Grid.Row="2" Content="Exit" Click="ExitButton_Click" Margin="317,654,-402,-682"></Button>
         </Grid>
 
     </Canvas>
