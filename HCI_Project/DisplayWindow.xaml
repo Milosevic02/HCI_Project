@@ -12,13 +12,58 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         >
+
+    <Window.Resources>
+        <Style TargetType="Label" x:Key="CustomLabelStyle">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+            <Setter Property="FontSize" Value="25"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="CustomTextBlockStyle">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Text" Value="Center"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+
+
+        </Style>
+        <Style TargetType="Button" x:Key="CustomButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                     x:Name="border"
+                     Background="White"
+                     BorderBrush="Black"
+                     BorderThickness="3"
+                     CornerRadius="15"
+                     Width="150"
+                     Height="50"
+                     Cursor="Hand">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+    </Window.Resources>
     <Canvas 
      Width="500" 
      Height="500">
         <Path 
         Name="UIPath"
-        Stroke="Pink"
-        StrokeThickness="5">
+        Stroke="MediumPurple"
+StrokeThickness="5">
             <Path.Data>
                 <PathGeometry>
                     <PathFigure StartPoint="50,0">
@@ -34,7 +79,7 @@
                 </PathGeometry>
             </Path.Data>
             <Path.Fill>
-                <ImageBrush ImageSource="Images\bg-image.jpeg" />
+                <ImageBrush ImageSource="C:\Users\milos\Documents\Faculty\6. Semestar\HCI\Projekat\HCI_Project\Images\bg-image.jpeg" />
             </Path.Fill>
         </Path>
 
@@ -47,25 +92,27 @@
 
         <TextBlock
             x:Name="NameTextBlock"
+            Style="{StaticResource CustomTextBlockStyle}"
             Width="200"
             Height="35"
-            Margin="270,80,0,0"
             Text="Name: Platform1"
             FontSize="25"
-            TextAlignment="Left"
+            TextAlignment="Left" Canvas.Left="250" Canvas.Top="159"
             />
 
         <TextBlock
             x:Name="UsersTextBlock"
+            Style="{StaticResource CustomTextBlockStyle}"
+
             Width="200"
             Height="35"
-            Margin="270,125,0,0"
             Text="Users: 15"
             FontSize="25"
-            TextAlignment="Left"
+            TextAlignment="Left" Canvas.Left="250" Canvas.Top="194" HorizontalAlignment="Left" VerticalAlignment="Center"
             />
 
-        <Label Content="Description:" Margin="30,232,0,0" FontSize="25"/>
+        <Label Content="Description:" Margin="30,232,0,0"  Style="{StaticResource CustomLabelStyle}"
+/>
         <ScrollViewer 
             VerticalScrollBarVisibility="Auto"            
             Width="440"
@@ -91,13 +138,11 @@
             />
         <Button 
             x:Name="CloseButton" 
-            Content="Close" 
-            Width="80"
-            Height="35"
-            Margin="210,457,0,0"
+            Style="{StaticResource CustomButtonStyle}"
+            Content="Close"
             Click="CloseButton_Click"
             Cursor="Hand"
-            ToolTip="Close"
+            ToolTip="Close" Canvas.Left="175" Canvas.Top="435"
             />
     </Canvas>
 </Window>
