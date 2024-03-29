@@ -125,10 +125,9 @@ namespace HCI_Project
             }
         }
 
-            private void ExitButton_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            MainWindow.mainWindow.ShowDialog();
         }
 
         private void SaveDataAsXML()
@@ -143,6 +142,9 @@ namespace HCI_Project
             if (messageBoxResult == MessageBoxResult.Yes)
             {
                 SaveDataAsXML();
+                this.Hide();
+                MainWindow.mainWindow.ShowDialog();
+
             }
             else
             {
