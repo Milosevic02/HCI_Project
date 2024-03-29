@@ -12,7 +12,6 @@
         WindowStyle="None"
         SizeToContent="WidthAndHeight"
         Background="Transparent"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown"
         WindowStartupLocation="CenterScreen"
         >
     <Canvas 
@@ -74,7 +73,7 @@
             VerticalAlignment="Top"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Center"
-            Content="CHANGE PERFUME"
+            Content="CHANGE PLATFORM"
             FontFamily="Agency FB"
             FontSize="34" />
 
