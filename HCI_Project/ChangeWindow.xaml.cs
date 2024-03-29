@@ -4,6 +4,7 @@ using Microsoft.Win32;
 using Notification.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -32,6 +33,8 @@ namespace HCI_Project
         public string name;
         public StreamingPlatform oldPlatform;
         public int indeks;
+        private DataIO serializer = new DataIO();
+
         public ChangeWindow(StreamingPlatform platform)
         {
             InitializeComponent();
@@ -39,6 +42,7 @@ namespace HCI_Project
             notificationManager = new NotificationManager();
             changeWindow = this;
             NameTextBox.Text = platform.Name;
+            SelfPicture = platform.Image;
             name = platform.Name;
             QuantityTextBox.Text = platform.Rating.ToString();
             EditorRichTextBox.Document = platform.ReadFromRTF();
@@ -133,17 +137,12 @@ namespace HCI_Project
 
             }
 
-            //if (richText.Equals(string.Empty))
-            //{
-            //    isValid = false;
-            //    NameErrorLabel.Content = "RichTextBox field cannot be left empty!";
-            //    NameTextBox.BorderBrush = Brushes.Red;
-            //}
-            //else
-            //{
-            //    NameErrorLabel.Content = string.Empty;
-            //    NameTextBox.BorderBrush = Brushes.Gray;
-            //}
+            if (EditorRichTextBox.Document.Blocks.Count == 0)
+            {
+                isValid = false;
+                this.ShowToastNotification(new ToastNotification("Error", "You must type a description!", NotificationType.Error));
+
+            }
 
 
             return isValid;
@@ -167,6 +166,10 @@ namespace HCI_Project
 
                 EditorRichTextBox.Selection.ApplyPropertyValue(Inline.ForegroundProperty, new SolidColorBrush(selectedColor));
             }
+        }
+        private void SaveDataAsXML()
+        {
+            serializer.SerializeObject<ObservableCollection<StreamingPlatform>>(UserWindow.userWindow.Platforms, "Platforms.xml");
         }
 
         private void FontSizeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -259,14 +262,25 @@ namespace HCI_Project
         {
             if(ValidateFormData())
             {
-                DeleteOldRtfFile();
-                DeleteOldPlatform(oldPlatform);
-                StreamingPlatform newPlatform = new StreamingPlatform(Int32.Parse(QuantityTextBox.Text), NameTextBox.Text, SelfPicture);
-                newPlatform.SaveAsRTF(EditorRichTextBox.Document);
-                UserWindow.userWindow.Platforms.Insert(indeks,newPlatform);
-                UserWindow.userWindow.ShowToastNotification(new ToastNotification("Success", "Platform added to the Data Table", NotificationType.Success));
-                this.Hide();
-                UserWindow.userWindow.ShowDialog();
+                if(IsExisting(NameTextBox.Text))
+                {
+                    DeleteOldRtfFile();
+                    StreamingPlatform newPlatform = new StreamingPlatform(Int32.Parse(QuantityTextBox.Text), NameTextBox.Text, SelfPicture);
+                    newPlatform.SaveAsRTF(EditorRichTextBox.Document);
+                    int ind = UserWindow.userWindow.Platforms.IndexOf(oldPlatform);
+                    UserWindow.userWindow.Platforms[ind] = newPlatform;
+                    SaveDataAsXML();
+                    UserWindow.userWindow.ShowToastNotification(new ToastNotification("Success", "Platform added to the Data Table", NotificationType.Success));
+                    this.Hide();
+                    UserWindow.userWindow.ShowDialog();
+                }
+                else
+                {
+                    this.ShowToastNotification(new ToastNotification("Error", "Platform with this name already exists", NotificationType.Error));
+
+
+                }
+
             }
             else
             {
@@ -277,10 +291,17 @@ namespace HCI_Project
 
         }
 
-        private void DeleteOldPlatform(StreamingPlatform platform)
+
+        private bool IsExisting(string name)
         {
-            indeks = UserWindow.userWindow.Platforms.IndexOf(platform);
-            UserWindow.userWindow.Platforms.Remove(platform);
+            foreach (StreamingPlatform platform in UserWindow.userWindow.Platforms)
+            {
+                if (platform.Name == name)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -291,7 +312,7 @@ namespace HCI_Project
 
         public void ShowToastNotification(ToastNotification toastNotification)
         {
-            notificationManager.Show(toastNotification.Title, toastNotification.Message, toastNotification.Type, "AddNotificationArea");
+            notificationManager.Show(toastNotification.Title, toastNotification.Message, toastNotification.Type, "ChangeNotificationArea");
         }
         private void DeleteOldRtfFile()
         {
