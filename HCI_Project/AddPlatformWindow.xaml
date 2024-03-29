@@ -13,6 +13,43 @@
         WindowStartupLocation="CenterScreen"
 
         Title="AddPlatformWindow">
+
+    <Window.Resources>
+        <Style TargetType="Label" x:Key="CustomLabelStyle">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style TargetType="Button" x:Key="CustomButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                     x:Name="border"
+                     Background="White"
+                     BorderBrush="Black"
+                     BorderThickness="3"
+                     CornerRadius="15"
+                     Width="150"
+                     Height="50"
+                     Cursor="Hand">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+    </Window.Resources>
+
     <Canvas 
      Width="500" 
      Height="500">
@@ -24,8 +61,8 @@
             />
         <Path
           Name="UIPath"
-          Stroke="Blue"
-          StrokeThickness="5">
+          Stroke="MediumPurple"
+StrokeThickness="5">
             <Path.Data>
                 <PathGeometry>
                     <PathFigure StartPoint="50,0">
@@ -41,7 +78,7 @@
                 </PathGeometry>
             </Path.Data>
             <Path.Fill>
-                <ImageBrush ImageSource="Images\bg-image.jpeg" />
+                <ImageBrush ImageSource="C:\Users\milos\Documents\Faculty\6. Semestar\HCI\Projekat\HCI_Project\Images\bg-image.jpeg" />
             </Path.Fill>
         </Path>
 
@@ -68,6 +105,7 @@
             <Label
             x:Name="TitleLabel"
             Grid.Row="0"
+            Foreground="White"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
@@ -80,6 +118,7 @@
 
             <Label
             x:Name="KOLabel"
+             Style="{StaticResource CustomLabelStyle}"
             Grid.Row="4"
             Grid.Column="0"
             HorizontalAlignment="Left"
@@ -120,6 +159,7 @@
 
             <Label
             x:Name="NameLabel"
+            Style="{StaticResource CustomLabelStyle}"
             Grid.Column="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
@@ -158,6 +198,7 @@
 
             <Label
             x:Name="DescriptionLabel"
+            Style="{StaticResource CustomLabelStyle}"
             Grid.Row="1"
             Grid.Column="0"
             HorizontalAlignment="Left"
@@ -272,7 +313,7 @@
 
                 <StatusBar Height="25" Width="365" VerticalAlignment="Bottom">
                     <StatusBarItem>
-                        <TextBlock x:Name="wordCountTextBlock"/>
+                        <TextBlock Foreground="black" x:Name="wordCountTextBlock"/>
                     </StatusBarItem>
                 </StatusBar>
             </StackPanel>
@@ -284,6 +325,7 @@
                 >
                 <Label
                 x:Name="ImageLabel"
+                Style="{StaticResource CustomLabelStyle}"
                 Margin="0,10,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
@@ -294,14 +336,11 @@
                 FontSize="18" />
 
                 <Button 
-                Width="100" 
-                Height="30" 
+                 Style="{StaticResource CustomButtonStyle}"
                 x:Name="ImageButton"
                 Content="Browse"
-                FontSize="18"
                 Margin="10,5,0,0"
                 ToolTip="Select image"
-                Cursor="Hand"
                 Click="ImageButton_Click"
                 />
             </StackPanel>
@@ -315,23 +354,21 @@
         </Grid>
 
         <Button 
-        Width="100" 
-        Height="50" 
+        Style="{StaticResource CustomButtonStyle}"
         x:Name="AddButton"
         Content="Add"
         FontSize="18" 
-        Canvas.Left="350" 
+        Canvas.Left="284" 
         Canvas.Top="440" 
         ToolTip="Add"
-        Cursor="Hand"
         HorizontalAlignment="Left" 
         VerticalAlignment="Center"
         Click="AddButton_Click"
         />
 
         <Button 
-        Width="100" 
-        Height="50" 
+        Style="{StaticResource CustomButtonStyle}"
+
         x:Name="CloseButton"
         Content="Close"
         FontSize="18" 
