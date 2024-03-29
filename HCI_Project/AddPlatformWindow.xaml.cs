@@ -196,6 +196,18 @@ namespace HCI_Project
 
         }
 
+        private bool IsExisting(string name)
+        {
+            foreach(StreamingPlatform platform in UserWindow.userWindow.Platforms)
+            {
+                if (platform.Name == name)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private void EditorRichTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             WordCounter(EditorRichTextBox.Document);
@@ -250,12 +262,21 @@ namespace HCI_Project
             UserWindow userWindow = UserWindow.userWindow;
             if (ValidateFormData())
             {
-                StreamingPlatform platform = new StreamingPlatform(Int32.Parse(KOTextBox.Text),NameTextBox.Text,SelfPicture);
-                platform.SaveAsRTF(EditorRichTextBox.Document);
-                userWindow.Platforms.Add(platform);
-                userWindow.ShowToastNotification(new ToastNotification("Success", "Platform added to the Data Table", NotificationType.Success));
-                this.Hide();
-                userWindow.ShowDialog();
+                if(IsExisting(NameTextBox.Text))
+                {
+                    StreamingPlatform platform = new StreamingPlatform(Int32.Parse(KOTextBox.Text), NameTextBox.Text, SelfPicture);
+                    platform.SaveAsRTF(EditorRichTextBox.Document);
+                    userWindow.Platforms.Add(platform);
+                    userWindow.ShowToastNotification(new ToastNotification("Success", "Platform added to the Data Table", NotificationType.Success));
+                    this.Hide();
+                    userWindow.ShowDialog();
+                }
+                else
+                {
+                    this.ShowToastNotification(new ToastNotification("Error", "Platform with this name already exists", NotificationType.Error));
+
+                }
+
             }
             else
             {
