@@ -30,7 +30,7 @@ namespace HCI_Project.Model
             this.image = image;
             this.description = name + ".rtf";
             this.date = DateTime.Now;
-            this.isChecked = false;
+            this.IsChecked = false;
         }
 
 
@@ -40,22 +40,18 @@ namespace HCI_Project.Model
         public string Image { get => image; set => image = value; }
         public string Description { get => description; set => description = value; }
         public DateTime Date { get => date; set => date = value; }
+        public bool IsChecked { get => isChecked; set => isChecked = value; }
 
-        public void SaveAsRTF(string text)
+        public void SaveAsRTF(FlowDocument doc)
         {
-            try
+            TextRange range = new TextRange(doc.ContentStart, doc.ContentEnd);
+            using (var stream = System.IO.File.Create(Name + ".rtf"))
             {
-                using (StreamWriter sw = new StreamWriter(description))
-                {
-                    sw.Write(text);
-                }
-            }catch (IOException ex)
-            {
-                 Console.WriteLine("Faild to save in RTF");
+                range.Save(stream, DataFormats.Rtf);
             }
         }
 
-        private FlowDocument ReadFromRTF()
+        public FlowDocument ReadFromRTF()
         {
             FlowDocument flowDocument = new FlowDocument();
 
