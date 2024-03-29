@@ -84,7 +84,7 @@
             VerticalAlignment="Top"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Top"
-            Content="KNOCKOUT:"
+            Content="USERS:"
             FontFamily="Agency FB"
             FontSize="18" Margin="35,0,0,0" />
 
