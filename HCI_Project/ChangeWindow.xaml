@@ -14,19 +14,77 @@
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
         >
+
+
+    <Window.Resources>
+        <Style TargetType="Label" x:Key="CustomLabelStyle">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="CustomTextBlockStyle">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Text" Value="Center"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+
+
+        </Style>
+        <Style TargetType="TextBox" x:Key="CustomTextBoxStyle">
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="16"/>
+
+
+        </Style>
+        <Style TargetType="Button" x:Key="CustomButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                     x:Name="border"
+                     Background="White"
+                     BorderBrush="Black"
+                     BorderThickness="3"
+                     CornerRadius="15"
+                     Width="150"
+                     Height="50"
+                     Cursor="Hand">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+    </Window.Resources>
     <Canvas 
      Width="500" 
      Height="500">
         <notifications:NotificationArea
-            x:Name="WindowNotificationArea"
+            x:Name="ChangeNotificationArea"
             Panel.ZIndex="1000"
             MaxItems="3"
             Position="TopLeft"
             />
         <Path 
         Name="UIPath"
-        Stroke="Pink"
-        StrokeThickness="5">
+        Stroke="MediumPurple"
+StrokeThickness="5">
             <Path.Data>
                 <PathGeometry>
                     <PathFigure StartPoint="50,0">
@@ -43,7 +101,7 @@
             </Path.Data>
 
             <Path.Fill>
-                <ImageBrush ImageSource="Images\bg-image.jpeg" />
+                <ImageBrush ImageSource="C:\Users\milos\Documents\Faculty\6. Semestar\HCI\Projekat\HCI_Project\Images\bg-image.jpeg" />
             </Path.Fill>
         </Path>
 
@@ -69,6 +127,7 @@
 
             <Label
             x:Name="TitleLabel"
+            Foreground="White"
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2"
@@ -82,6 +141,7 @@
 
             <Label
             x:Name="QuantityLabel"
+            Style="{StaticResource CustomLabelStyle}"
             Grid.Row="4"
             Grid.Column="0"
             HorizontalAlignment="Left"
@@ -89,18 +149,15 @@
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Top"
             Content="Quantity:"
-            FontFamily="Agency FB"
-            FontSize="18" />
+             />
 
             <TextBox
                 x:Name="QuantityTextBox"
+                Style="{StaticResource CustomTextBoxStyle}"
                 Grid.Row="4"
                 Grid.Column="1"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                FontSize="18"
-                Height="30"
-                Width="200"
+                VerticalAlignment="Top"           
                 ToolTip="Input quantity"
                 PreviewTextInput="QuantityTextBox_PreviewTextInput"
                 GotFocus="QuantityTextBox_GotFocus"
@@ -122,24 +179,24 @@
 
             <Label
             x:Name="NameLabel"
+            Style="{StaticResource CustomLabelStyle}"
             Grid.Column="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             HorizontalContentAlignment="Center"
             VerticalContentAlignment="Top"
             Content="Name:"
-            FontFamily="Agency FB"
-            FontSize="18" Margin="-3,48,0,0" Grid.RowSpan="2" />
+             Margin="-3,48,0,0" Grid.RowSpan="2" />
 
             <TextBox
                 x:Name="NameTextBox"
+                Style="{StaticResource CustomTextBoxStyle}"
                 Grid.Row="1"
                 Grid.Column="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 FontSize="18"
-                Height="30"
-                Width="200"
+             
                 ToolTip="Input name"
                 GotFocus="NameTextBox_GotFocus"
                 LostFocus="NameTextBox_LostFocus"
@@ -160,6 +217,7 @@
 
             <Label
             x:Name="DescriptionLabel"
+            Style="{StaticResource CustomLabelStyle}"
             Grid.Row="1"
             Grid.Column="0"
             HorizontalAlignment="Left"
@@ -167,8 +225,7 @@
             HorizontalContentAlignment="Left"
             VerticalContentAlignment="Bottom"
             Content="Description:"
-            FontFamily="Agency FB"
-            FontSize="18" Margin="-4,28,0,0" Grid.RowSpan="2" />
+             Margin="-4,28,0,0" Grid.RowSpan="2" />
 
             <StackPanel
             Grid.Row="2"
@@ -275,10 +332,12 @@
                 TextChanged="EditorRichTextBox_TextChanged"
                 />
 
-                <StatusBar Height="25" Width="365" VerticalAlignment="Bottom">
-                    <StatusBarItem>
-                        <TextBlock x:Name="wordCountTextBlock"/>
-                    </StatusBarItem>
+                <StatusBar Height="40" Width="365" VerticalAlignment="Bottom">
+   
+                    <StackPanel Orientation="Horizontal" Height="30">
+                        <TextBlock x:Name="wordCountTextBlock" Text = "" Width="30" Foreground="black"/>
+                    </StackPanel>
+
                 </StatusBar>
             </StackPanel>
 
@@ -289,24 +348,21 @@
                 >
                 <Label
                 x:Name="ImageLabel"
+                Style="{StaticResource CustomLabelStyle}"
                 Margin="0,10,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
                 Content="Image:"
-                FontFamily="Agency FB"
-                FontSize="18" />
+                 />
 
                 <Button 
-                Width="100" 
-                Height="30" 
                 x:Name="ImageButton"
+                Style="{StaticResource CustomButtonStyle}"
                 Content="Browse"
-                FontSize="18"
                 Margin="10,5,0,0"
                 ToolTip="Select image"
-                Cursor="Hand"
                 Click="ImageButton_Click"
                 />
             </StackPanel>
@@ -320,12 +376,11 @@
         </Grid>
 
         <Button 
-        Width="100" 
-        Height="50" 
+        Style="{StaticResource CustomButtonStyle}"
         x:Name="ChangeButton"
         Content="Change"
         FontSize="18" 
-        Canvas.Left="350" 
+        Canvas.Left="288" 
         Canvas.Top="440" 
         HorizontalAlignment="Left" 
         VerticalAlignment="Center"
@@ -335,8 +390,7 @@
         />
 
         <Button 
-        Width="100" 
-        Height="50" 
+        Style="{StaticResource CustomButtonStyle}"
         x:Name="CloseButton"
         Content="Close"
         FontSize="18" 
