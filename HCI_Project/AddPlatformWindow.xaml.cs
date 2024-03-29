@@ -27,7 +27,7 @@ namespace HCI_Project
     public partial class AddPlatformWindow : Window
     {
         private NotificationManager notificationManager;
-        public string SelfPicture;
+        public string SelfPicture= "";
 
 
         public AddPlatformWindow()
@@ -138,6 +138,9 @@ namespace HCI_Project
             if(SelfPicture.Equals(string.Empty))
             {
                 isValid = false;
+                this.ShowToastNotification(new ToastNotification("Error", "You must choose a image!", NotificationType.Error));
+
+
             }
 
             //if (richText.Equals(string.Empty))
@@ -220,8 +223,7 @@ namespace HCI_Project
             if (ValidateFormData())
             {
                 StreamingPlatform platform = new StreamingPlatform(Int32.Parse(KOTextBox.Text),NameTextBox.Text,SelfPicture);
-                string richText = new TextRange(EditorRichTextBox.Document.ContentStart, EditorRichTextBox.Document.ContentEnd).Text.Trim();
-                platform.SaveAsRTF(richText);
+                platform.SaveAsRTF(EditorRichTextBox.Document);
                 userWindow.Platforms.Add(platform);
                 userWindow.ShowToastNotification(new ToastNotification("Success", "Platform added to the Data Table", NotificationType.Success));
                 this.Hide();
@@ -261,18 +263,6 @@ namespace HCI_Project
             }
         }
 
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to exit?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (messageBoxResult == MessageBoxResult.Yes)
-            {
-            }
-            else
-            {
-                e.Cancel = true;
-            }
-        }
         public void ShowToastNotification(ToastNotification toastNotification)
         {
             notificationManager.Show(toastNotification.Title, toastNotification.Message, toastNotification.Type, "AddNotificationArea");
