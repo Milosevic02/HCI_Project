@@ -260,33 +260,50 @@ namespace HCI_Project
 
         private void ChangeButton_Click(object sender, RoutedEventArgs e)
         {
-            if(ValidateFormData())
+            if(oldPlatform.Name != NameTextBox.Text)
             {
-                if(IsExisting(NameTextBox.Text))
+                if (ValidateFormData())
                 {
-                    DeleteOldRtfFile();
-                    StreamingPlatform newPlatform = new StreamingPlatform(Int32.Parse(QuantityTextBox.Text), NameTextBox.Text, SelfPicture);
-                    newPlatform.SaveAsRTF(EditorRichTextBox.Document);
-                    int ind = UserWindow.userWindow.Platforms.IndexOf(oldPlatform);
-                    UserWindow.userWindow.Platforms[ind] = newPlatform;
-                    SaveDataAsXML();
-                    UserWindow.userWindow.ShowToastNotification(new ToastNotification("Success", "Platform added to the Data Table", NotificationType.Success));
-                    this.Hide();
-                    UserWindow.userWindow.ShowDialog();
+                    if (IsExisting(NameTextBox.Text))
+                    {
+                        DeleteOldRtfFile();
+                        StreamingPlatform newPlatform = new StreamingPlatform(Int32.Parse(QuantityTextBox.Text), NameTextBox.Text, SelfPicture);
+                        newPlatform.SaveAsRTF(EditorRichTextBox.Document);
+                        int ind = UserWindow.userWindow.Platforms.IndexOf(oldPlatform);
+                        UserWindow.userWindow.Platforms[ind] = newPlatform;
+                        SaveDataAsXML();
+                        UserWindow.userWindow.ShowToastNotification(new ToastNotification("Success", "Platform added to the Data Table", NotificationType.Success));
+                        this.Hide();
+                        UserWindow.userWindow.ShowDialog();
+                    }
+                    else
+                    {
+                        this.ShowToastNotification(new ToastNotification("Error", "Platform with this name already exists", NotificationType.Error));
+
+
+                    }
                 }
                 else
                 {
-                    this.ShowToastNotification(new ToastNotification("Error", "Platform with this name already exists", NotificationType.Error));
-
+                    this.ShowToastNotification(new ToastNotification("Error", "Form fields are not correctly filled!", NotificationType.Error));
 
                 }
+
 
             }
             else
             {
-                this.ShowToastNotification(new ToastNotification("Error", "Form fields are not correctly filled!", NotificationType.Error));
-
+                DeleteOldRtfFile();
+                StreamingPlatform newPlatform = new StreamingPlatform(Int32.Parse(QuantityTextBox.Text), NameTextBox.Text, SelfPicture);
+                newPlatform.SaveAsRTF(EditorRichTextBox.Document);
+                int ind = UserWindow.userWindow.Platforms.IndexOf(oldPlatform);
+                UserWindow.userWindow.Platforms[ind] = newPlatform;
+                SaveDataAsXML();
+                UserWindow.userWindow.ShowToastNotification(new ToastNotification("Success", "Platform added to the Data Table", NotificationType.Success));
+                this.Hide();
+                UserWindow.userWindow.ShowDialog();
             }
+
 
 
         }
