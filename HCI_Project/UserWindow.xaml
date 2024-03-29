@@ -14,9 +14,38 @@
         WindowStartupLocation="CenterScreen"
 
         Title="UserWindow">
-    
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="CustomButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                             x:Name="border"
+                             Background="White"
+                             BorderBrush="Black"
+                             BorderThickness="3"
+                             CornerRadius="15"
+                             Width="150"
+                             Height="50"
+                             Cursor="Hand">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="LightGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Agency FB"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+    </Window.Resources>
 
-    
+
     <Canvas 
      Width="800" 
      Height="500">
@@ -28,7 +57,7 @@
         />
         <Path
          Name="UIPath"
-         Stroke="Green"
+         Stroke="MediumPurple"
          StrokeThickness="5">
             <Path.Data>
                 <PathGeometry>
@@ -45,11 +74,11 @@
                 </PathGeometry>
             </Path.Data>
             <Path.Fill>
-                <ImageBrush ImageSource="Images\bg-image.jpeg" />
+                <ImageBrush ImageSource="C:\Users\milos\Documents\Faculty\6. Semestar\HCI\Projekat\HCI_Project\Images\bg-image.jpeg" />
             </Path.Fill>
         </Path>
 
-        <Label x:Name="TitleLabel" Content="Table with link" FontSize="36" Canvas.Left="283" Canvas.Top="32"></Label>
+        <Label x:Name="TitleLabel" Foreground="White" FontFamily="Agency FB" Content="Table with link" FontSize="36" Canvas.Left="283" Canvas.Top="32"></Label>
 
         <DataGrid 
             x:Name="PlatformsDataGrid" 
@@ -65,6 +94,7 @@
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
+
                 </Style>
             </DataGrid.ColumnHeaderStyle>
 
@@ -72,27 +102,42 @@
                 <DataGridCheckBoxColumn
                 Header="CheckBox"
                 Binding="{Binding IsChecked}"
-                Width="*"
-                />
-
-                <DataGridHyperlinkColumn
-                Header="Link"
-                Binding="{Binding Name}"
-                IsReadOnly="True"
-                    Width="*"
+                Width="65"
                 >
-                    <DataGridHyperlinkColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <EventSetter Event="Hyperlink.Click" Handler="Hyperlink_Click"/>
-                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-                        </Style>
-                    </DataGridHyperlinkColumn.ElementStyle>
-                </DataGridHyperlinkColumn>
+                
+                </DataGridCheckBoxColumn>
+                
+                <DataGridTemplateColumn Header="Platform" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate >
+                            <TextBlock TextAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="white"/>
+
+                                            </Trigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                                    <Hyperlink  Click="Hyperlink_Click">
+                                        <Run Text="{Binding Name}" />
+
+                                    </Hyperlink>
+
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
 
                 <DataGridTemplateColumn Header="Image" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding Image}" Width="100" Height="100"/>
+                            <Image   Source="{Binding Image}" Width="100" Height="100"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -101,18 +146,23 @@
                 Header="Date" 
                 IsReadOnly="True"
                 Width="*"
-                Binding="{Binding Date}"/>
+                Binding="{Binding Date}"
+                >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
             </DataGrid.Columns>
         </DataGrid>
 
         <Button
          x:Name="AddButton"
-         Width="150"
-         Height="50"
-         Background="White"
+         Style="{StaticResource CustomButtonStyle}"
          Content="Add"
-         Cursor="Hand"
          ToolTip="Add"
          Click="AddButton_Click"
          Canvas.Left="118" Canvas.Top="407"
@@ -120,11 +170,8 @@
 
         <Button
          x:Name="DeleteButton"
-         Width="150"
-         Height="50"
-         Background="White"
+         Style="{StaticResource CustomButtonStyle}"
          Content="Delete"
-         Cursor="Hand"
          ToolTip="Delete"
          Click="DeleteButton_Click"
          
@@ -133,11 +180,8 @@
 
         <Button
          x:Name="ExitButton"
-         Width="150"
-         Height="50"
-         Background="White"
+         Style="{StaticResource CustomButtonStyle}"
          Content="Exit"
-         Cursor="Hand"
          ToolTip="Exit"
          Click="ExitButton_Click"
          Margin="529,412,0,0"
